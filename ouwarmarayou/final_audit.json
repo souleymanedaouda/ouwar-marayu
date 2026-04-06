@@ -1,0 +1,66 @@
+{
+  "hb_actualites": {
+    "columns": [
+      "id",
+      "titre",
+      "date",
+      "extrait",
+      "image_url",
+      "created_at"
+    ]
+  },
+  "hb_activites": {
+    "columns": [
+      "id",
+      "titre",
+      "categorie",
+      "description",
+      "beneficiaires",
+      "date",
+      "created_at"
+    ]
+  },
+  "hb_evenements": {
+    "columns": [
+      "id",
+      "titre",
+      "date",
+      "lieu",
+      "description",
+      "statut",
+      "created_at"
+    ]
+  },
+  "hb_dons": {
+    "columns": [
+      "id",
+      "donateur",
+      "montant",
+      "cause",
+      "mode",
+      "date",
+      "statut",
+      "created_at"
+    ]
+  },
+  "hb_causes": {
+    "columns": [
+      "id",
+      "nom",
+      "montant",
+      "description",
+      "impact",
+      "badge",
+      "created_at"
+    ]
+  },
+  "hb_photos": {
+    "columns": [
+      "id",
+      "url",
+      "alt",
+      "legende",
+      "created_at"
+    ]
+  }
+}

@@ -1,0 +1,1333 @@
+﻿diff --git a/src/components/Footer.tsx b/src/components/Footer.tsx
+index c4be3b4..7726c1d 100644
+--- a/src/components/Footer.tsx
++++ b/src/components/Footer.tsx
+@@ -3,23 +3,23 @@ import { Heart, MapPin, Phone, Mail, Facebook, Instagram } from "lucide-react";
+ import logo from "@/assets/logo.jpeg";
+ 
+ const Footer = () => (
+-  <footer className="bg-foreground text-primary-foreground">
++  <footer className="relative z-10 border-t border-white/[0.06]" style={{ background: 'rgba(5, 8, 18, 0.8)' }}>
+     <div className="container mx-auto px-4 py-16">
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+         {/* Brand */}
+         <div>
+           <div className="flex items-center gap-3 mb-4">
+-            <img src={logo} alt="Ouwar Marayu" className="h-12 w-auto rounded" />
+-            <span className="font-heading text-xl font-bold">Ouwar Marayu</span>
++            <img src={logo} alt="Ouwar Marayu" className="h-12 w-auto rounded-lg" />
++            <span className="font-heading text-xl font-bold text-gradient-hero">Ouwar Marayu</span>
+           </div>
+-          <p className="text-primary-foreground/70 text-sm leading-relaxed">
++          <p style={{ color: 'rgba(248, 250, 252, 0.45)' }} className="text-sm leading-relaxed">
+             Parce que chaque enfant orphelin m├®rite la chance de retrouver l'espoir. Organisation humanitaire bas├®e ├á Niamey, Niger.
+           </p>
+         </div>
+ 
+         {/* Links */}
+         <div>
+-          <h4 className="font-heading text-lg font-semibold mb-4">Navigation</h4>
++          <h4 className="font-heading text-lg font-semibold mb-4" style={{ color: '#F8FAFC' }}>Navigation</h4>
+           <div className="flex flex-col gap-2">
+             {[
+               { to: "/a-propos", label: "├Ç propos" },
+@@ -32,7 +32,8 @@ const Footer = () => (
+               <Link
+                 key={link.to}
+                 to={link.to}
+-                className="text-primary-foreground/70 hover:text-primary-foreground text-sm transition-colors"
++                className="text-sm transition-colors hover:text-white"
++                style={{ color: 'rgba(248, 250, 252, 0.45)' }}
+               >
+                 {link.label}
+               </Link>
+@@ -42,15 +43,15 @@ const Footer = () => (
+ 
+         {/* Contact */}
+         <div>
+-          <h4 className="font-heading text-lg font-semibold mb-4">Contact</h4>
+-          <div className="flex flex-col gap-3 text-sm text-primary-foreground/70">
++          <h4 className="font-heading text-lg font-semibold mb-4" style={{ color: '#F8FAFC' }}>Contact</h4>
++          <div className="flex flex-col gap-3 text-sm" style={{ color: 'rgba(248, 250, 252, 0.45)' }}>
+             <div className="flex items-start gap-2">
+               <MapPin size={16} className="mt-0.5 shrink-0" />
+               <span>Niamey, Niger</span>
+             </div>
+             <div className="flex items-center gap-2">
+               <Phone size={16} className="shrink-0" />
+-              <span>+227 XX XX XX XX</span>
++              <span>+227 96 00 00 00</span>
+             </div>
+             <div className="flex items-center gap-2">
+               <Mail size={16} className="shrink-0" />
+@@ -61,29 +62,43 @@ const Footer = () => (
+ 
+         {/* CTA */}
+         <div>
+-          <h4 className="font-heading text-lg font-semibold mb-4">Soutenez-nous</h4>
+-          <p className="text-primary-foreground/70 text-sm mb-4">
++          <h4 className="font-heading text-lg font-semibold mb-4" style={{ color: '#F8FAFC' }}>Soutenez-nous</h4>
++          <p className="text-sm mb-4" style={{ color: 'rgba(248, 250, 252, 0.45)' }}>
+             Chaque geste compte. Ensemble, redonnons espoir aux enfants du Niger.
+           </p>
+           <Link
+             to="/solidarite"
+-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
++            className="glass-button inline-flex items-center gap-2 px-5 py-2.5 rounded-glass-md text-sm font-semibold"
+           >
+             <Heart size={16} />
+             Faire un don
+           </Link>
+-          <div className="flex items-center gap-3 mt-6">
+-            <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors" aria-label="Facebook">
+-              <Facebook size={20} />
++          <div className="flex items-center gap-4 mt-6">
++            <a
++              href="https://facebook.com/ouwarmarayu"
++              target="_blank"
++              rel="noopener noreferrer"
++              className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-white/10 hover:text-indigo-400 hover:drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]"
++              style={{ color: 'rgba(248, 250, 252, 0.35)', border: '1px solid rgba(255,255,255,0.08)' }}
++              aria-label="Facebook"
++            >
++              <Facebook size={18} />
+             </a>
+-            <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors" aria-label="Instagram">
+-              <Instagram size={20} />
++            <a
++              href="https://instagram.com/ouwarmarayu"
++              target="_blank"
++              rel="noopener noreferrer"
++              className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-white/10 hover:text-violet-400 hover:drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]"
++              style={{ color: 'rgba(248, 250, 252, 0.35)', border: '1px solid rgba(255,255,255,0.08)' }}
++              aria-label="Instagram"
++            >
++              <Instagram size={18} />
+             </a>
+           </div>
+         </div>
+       </div>
+ 
+-      <div className="border-t border-primary-foreground/10 mt-12 pt-8 text-center text-xs text-primary-foreground/50">
++      <div className="mt-12 pt-8 text-center text-xs" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', color: 'rgba(248, 250, 252, 0.25)' }}>
+         <p>┬® {new Date().getFullYear()} Ouwar Marayu. Tous droits r├®serv├®s.</p>
+       </div>
+     </div>
+diff --git a/src/components/Layout.tsx b/src/components/Layout.tsx
+index 03f75df..67605f0 100644
+--- a/src/components/Layout.tsx
++++ b/src/components/Layout.tsx
+@@ -3,9 +3,53 @@ import Navbar from "./Navbar";
+ import Footer from "./Footer";
+ 
+ const Layout = ({ children }: { children: ReactNode }) => (
+-  <div className="min-h-screen flex flex-col">
++  <div className="relative min-h-screen flex flex-col" style={{ backgroundColor: '#050812' }}>
++    {/* ÔöÇÔöÇ Animated Gradient Mesh Blobs ÔöÇÔöÇ */}
++    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
++      {/* Blob 1: Electric Indigo */}
++      <div
++        className="absolute animate-float-1"
++        style={{
++          top: '10%',
++          left: '15%',
++          width: '500px',
++          height: '500px',
++          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%)',
++          filter: 'blur(120px)',
++        }}
++      />
++      {/* Blob 2: Cyan-Teal */}
++      <div
++        className="absolute animate-float-2"
++        style={{
++          top: '50%',
++          right: '10%',
++          width: '450px',
++          height: '450px',
++          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%)',
++          filter: 'blur(120px)',
++        }}
++      />
++      {/* Blob 3: Violet */}
++      <div
++        className="absolute animate-float-3"
++        style={{
++          bottom: '10%',
++          left: '40%',
++          width: '550px',
++          height: '550px',
++          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%)',
++          filter: 'blur(120px)',
++        }}
++      />
++    </div>
++
++    {/* ÔöÇÔöÇ Grain texture ÔöÇÔöÇ */}
++    <div className="grain-overlay" />
++
++    {/* ÔöÇÔöÇ Content ÔöÇÔöÇ */}
+     <Navbar />
+-    <main className="flex-1 pt-16 md:pt-20">{children}</main>
++    <main className="flex-1 pt-16 md:pt-20 relative z-10">{children}</main>
+     <Footer />
+   </div>
+ );
+diff --git a/src/components/Navbar.tsx b/src/components/Navbar.tsx
+index f9d2dea..c92b778 100644
+--- a/src/components/Navbar.tsx
++++ b/src/components/Navbar.tsx
+@@ -1,6 +1,6 @@
+-import { useState } from "react";
++import { useState, useEffect, useRef } from "react";
+ import { Link, useLocation } from "react-router-dom";
+-import { Menu, X } from "lucide-react";
++import { Menu, X, Heart } from "lucide-react";
+ import logo from "@/assets/logo.jpeg";
+ 
+ const navLinks = [
+@@ -15,14 +15,31 @@ const navLinks = [
+ 
+ const Navbar = () => {
+   const [open, setOpen] = useState(false);
++  const [hidden, setHidden] = useState(false);
++  const lastScroll = useRef(0);
+   const location = useLocation();
+ 
++  // Smooth hide-on-scroll
++  useEffect(() => {
++    const handleScroll = () => {
++      const current = window.scrollY;
++      setHidden(current > 80 && current > lastScroll.current);
++      lastScroll.current = current;
++    };
++    window.addEventListener("scroll", handleScroll, { passive: true });
++    return () => window.removeEventListener("scroll", handleScroll);
++  }, []);
++
+   return (
+-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
++    <header
++      className={`fixed top-0 left-0 right-0 z-50 glass-navbar transition-transform duration-300 ${
++        hidden && !open ? "-translate-y-full" : "translate-y-0"
++      }`}
++    >
+       <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4">
+         <Link to="/" className="flex items-center gap-3">
+-          <img src={logo} alt="Ouwar Marayu" className="h-10 md:h-14 w-auto rounded" />
+-          <span className="font-heading text-lg md:text-xl font-bold text-primary hidden sm:inline">
++          <img src={logo} alt="Ouwar Marayu" className="h-10 md:h-14 w-auto rounded-lg" />
++          <span className="font-heading text-lg md:text-xl font-bold text-gradient-hero hidden sm:inline">
+             Ouwar Marayu
+           </span>
+         </Link>
+@@ -33,27 +50,31 @@ const Navbar = () => {
+             <Link
+               key={link.to}
+               to={link.to}
+-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
++              className={`relative px-3 py-2 rounded-glass-sm text-sm font-medium transition-all duration-200 ${
+                 location.pathname === link.to
+-                  ? "text-primary bg-accent"
+-                  : "text-muted-foreground hover:text-primary hover:bg-accent/50"
++                  ? "text-white bg-white/[0.08]"
++                  : "text-white/55 hover:text-white hover:bg-white/[0.04]"
+               }`}
+             >
++              {location.pathname === link.to && (
++                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-full bg-gradient-to-b from-indigo-400 to-cyan-400" />
++              )}
+               {link.label}
+             </Link>
+           ))}
+           <Link
+             to="/solidarite"
+-            className="ml-3 gradient-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
++            className="ml-3 glass-button px-5 py-2.5 rounded-glass-md text-sm font-semibold inline-flex items-center gap-2"
+           >
+-            ­ƒÆØ Faire un don
++            <Heart size={14} />
++            Faire un don
+           </Link>
+         </nav>
+ 
+         {/* Mobile toggle */}
+         <button
+           onClick={() => setOpen(!open)}
+-          className="lg:hidden p-2 text-foreground"
++          className="lg:hidden p-2 text-white/80 hover:text-white transition-colors"
+           aria-label="Menu"
+         >
+           {open ? <X size={24} /> : <Menu size={24} />}
+@@ -62,17 +83,17 @@ const Navbar = () => {
+ 
+       {/* Mobile nav */}
+       {open && (
+-        <nav className="lg:hidden bg-background border-t border-border animate-fade-in">
++        <nav className="lg:hidden glass-modal border-t border-white/[0.06] animate-fade-in">
+           <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
+             {navLinks.map((link) => (
+               <Link
+                 key={link.to}
+                 to={link.to}
+                 onClick={() => setOpen(false)}
+-                className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
++                className={`px-4 py-3 rounded-glass-sm text-sm font-medium transition-colors ${
+                   location.pathname === link.to
+-                    ? "text-primary bg-accent"
+-                    : "text-muted-foreground hover:text-primary hover:bg-accent/50"
++                    ? "text-white bg-white/[0.08]"
++                    : "text-white/55 hover:text-white hover:bg-white/[0.04]"
+                 }`}
+               >
+                 {link.label}
+@@ -81,9 +102,10 @@ const Navbar = () => {
+             <Link
+               to="/solidarite"
+               onClick={() => setOpen(false)}
+-              className="mt-2 gradient-primary text-primary-foreground px-5 py-3 rounded-lg text-sm font-semibold text-center"
++              className="mt-2 glass-button px-5 py-3 rounded-glass-md text-sm font-semibold text-center inline-flex items-center justify-center gap-2"
+             >
+-              ­ƒÆØ Faire un don
++              <Heart size={14} />
++              Faire un don
+             </Link>
+           </div>
+         </nav>
+diff --git a/src/index.css b/src/index.css
+index 2922333..e0f680a 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -1,92 +1,87 @@
+-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
++@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+ 
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+ 
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++/* DESIGN TOKENS ÔÇö Dark Glassmorphism                                         */
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++
+ @layer base {
+   :root {
+-    --background: 0 0% 100%;
+-    --foreground: 330 20% 15%;
++    /* Base Palette */
++    --color-base: #050812;
++    --color-indigo: #6366F1;
++    --color-cyan: #06B6D4;
++    --color-violet: #8B5CF6;
++    --color-indigo-400: #818CF8;
++
++    /* Text */
++    --text-primary: #F8FAFC;
++    --text-secondary: rgba(248, 250, 252, 0.55);
++    --text-muted: rgba(248, 250, 252, 0.30);
++    --text-accent: #818CF8;
++
++    /* Spacing & Radius */
++    --radius-sm: 10px;
++    --radius-md: 16px;
++    --radius-lg: 24px;
++    --radius-xl: 32px;
++    --radius-pill: 999px;
+ 
+-    --card: 0 0% 100%;
+-    --card-foreground: 330 20% 15%;
++    /* Shadcn/Radix compatible tokens (dark-only) */
++    --background: 225 60% 3%;
++    --foreground: 210 40% 98%;
+ 
+-    --popover: 0 0% 100%;
+-    --popover-foreground: 330 20% 15%;
++    --card: 225 30% 6%;
++    --card-foreground: 210 40% 98%;
+ 
+-    --primary: 330 70% 35%;
+-    --primary-foreground: 0 0% 100%;
++    --popover: 225 30% 6%;
++    --popover-foreground: 210 40% 98%;
+ 
+-    --secondary: 330 15% 96%;
+-    --secondary-foreground: 330 20% 15%;
++    --primary: 239 84% 67%;
++    --primary-foreground: 210 40% 98%;
+ 
+-    --muted: 330 10% 96%;
+-    --muted-foreground: 330 10% 45%;
++    --secondary: 225 20% 12%;
++    --secondary-foreground: 210 40% 98%;
+ 
+-    --accent: 330 60% 92%;
+-    --accent-foreground: 330 70% 30%;
++    --muted: 225 20% 12%;
++    --muted-foreground: 215 20% 55%;
++
++    --accent: 259 58% 56%;
++    --accent-foreground: 210 40% 98%;
+ 
+     --destructive: 0 84.2% 60.2%;
+     --destructive-foreground: 210 40% 98%;
+ 
+-    --border: 330 15% 90%;
+-    --input: 330 15% 90%;
+-    --ring: 330 70% 35%;
++    --border: 225 15% 15%;
++    --input: 225 15% 15%;
++    --ring: 239 84% 67%;
+ 
+-    --radius: 0.5rem;
++    --radius: 0.75rem;
+ 
+-    --sidebar-background: 330 15% 98%;
+-    --sidebar-foreground: 330 10% 30%;
+-    --sidebar-primary: 330 70% 35%;
+-    --sidebar-primary-foreground: 0 0% 100%;
+-    --sidebar-accent: 330 15% 95%;
+-    --sidebar-accent-foreground: 330 10% 30%;
+-    --sidebar-border: 330 10% 91%;
+-    --sidebar-ring: 330 70% 45%;
++    --sidebar-background: 225 60% 4%;
++    --sidebar-foreground: 210 20% 90%;
++    --sidebar-primary: 239 84% 67%;
++    --sidebar-primary-foreground: 210 40% 98%;
++    --sidebar-accent: 225 20% 10%;
++    --sidebar-accent-foreground: 210 20% 90%;
++    --sidebar-border: 225 15% 12%;
++    --sidebar-ring: 239 84% 67%;
+ 
+     /* Custom tokens */
+     --warm: 35 80% 55%;
+     --warm-foreground: 35 90% 15%;
+-    --surface: 330 10% 98%;
+-    --hero-overlay: 330 70% 25%;
+-  }
+-
+-  .dark {
+-    --background: 330 20% 8%;
+-    --foreground: 330 10% 95%;
+-    --card: 330 20% 10%;
+-    --card-foreground: 330 10% 95%;
+-    --popover: 330 20% 10%;
+-    --popover-foreground: 330 10% 95%;
+-    --primary: 330 65% 55%;
+-    --primary-foreground: 0 0% 100%;
+-    --secondary: 330 15% 18%;
+-    --secondary-foreground: 330 10% 95%;
+-    --muted: 330 15% 18%;
+-    --muted-foreground: 330 10% 65%;
+-    --accent: 330 30% 20%;
+-    --accent-foreground: 330 60% 80%;
+-    --destructive: 0 62.8% 30.6%;
+-    --destructive-foreground: 210 40% 98%;
+-    --border: 330 15% 20%;
+-    --input: 330 15% 20%;
+-    --ring: 330 65% 55%;
+-    --sidebar-background: 330 20% 8%;
+-    --sidebar-foreground: 330 10% 90%;
+-    --sidebar-primary: 330 65% 55%;
+-    --sidebar-primary-foreground: 0 0% 100%;
+-    --sidebar-accent: 330 15% 15%;
+-    --sidebar-accent-foreground: 330 10% 90%;
+-    --sidebar-border: 330 15% 15%;
+-    --sidebar-ring: 330 65% 55%;
+-    --warm: 35 70% 50%;
+-    --warm-foreground: 35 90% 95%;
+-    --surface: 330 15% 12%;
+-    --hero-overlay: 330 70% 20%;
++    --surface: 225 30% 5%;
++    --hero-overlay: 225 60% 3%;
+   }
+ }
+ 
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++/* BASE STYLES                                                                */
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++
+ @layer base {
+   * {
+     @apply border-border;
+@@ -94,52 +89,268 @@
+ 
+   body {
+     @apply bg-background text-foreground font-body antialiased;
++    background-color: var(--color-base);
++    color: var(--text-primary);
+   }
+ 
+   h1, h2, h3, h4, h5, h6 {
+     @apply font-heading;
++    letter-spacing: -0.03em;
++  }
++
++  /* Custom scrollbar for dark theme */
++  ::-webkit-scrollbar {
++    width: 8px;
++  }
++  ::-webkit-scrollbar-track {
++    background: rgba(255, 255, 255, 0.02);
++  }
++  ::-webkit-scrollbar-thumb {
++    background: rgba(255, 255, 255, 0.08);
++    border-radius: 999px;
++  }
++  ::-webkit-scrollbar-thumb:hover {
++    background: rgba(255, 255, 255, 0.15);
+   }
+ }
+ 
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++/* GLASSMORPHISM SYSTEM                                                       */
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++
+ @layer components {
++
++  /* Glass Card */
++  .glass-card {
++    background: rgba(255, 255, 255, 0.04);
++    backdrop-filter: blur(24px) saturate(180%);
++    -webkit-backdrop-filter: blur(24px) saturate(180%);
++    border: 1px solid rgba(255, 255, 255, 0.08);
++    border-radius: 20px;
++    box-shadow:
++      0 8px 32px rgba(0, 0, 0, 0.4),
++      inset 0 1px 0 rgba(255, 255, 255, 0.1);
++  }
++
++  .glass-card-hover {
++    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
++    will-change: transform, box-shadow;
++  }
++  .glass-card-hover:hover {
++    transform: translateY(-4px);
++    box-shadow:
++      0 16px 48px rgba(0, 0, 0, 0.5),
++      inset 0 1px 0 rgba(255, 255, 255, 0.15),
++      0 0 30px rgba(99, 102, 241, 0.08);
++    border-color: rgba(255, 255, 255, 0.12);
++  }
++
++  /* Glass Navbar */
++  .glass-navbar {
++    background: rgba(5, 8, 18, 0.6);
++    backdrop-filter: blur(40px);
++    -webkit-backdrop-filter: blur(40px);
++    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
++  }
++
++  /* Glass Modal / Sidebar */
++  .glass-modal {
++    background: rgba(255, 255, 255, 0.03);
++    backdrop-filter: blur(60px);
++    -webkit-backdrop-filter: blur(60px);
++    border: 1px solid rgba(255, 255, 255, 0.1);
++  }
++
++  /* Glass Button (Primary) */
++  .glass-button {
++    background: linear-gradient(135deg,
++      rgba(99, 102, 241, 0.5), rgba(139, 92, 246, 0.3));
++    border: 1px solid rgba(139, 92, 246, 0.5);
++    backdrop-filter: blur(10px);
++    -webkit-backdrop-filter: blur(10px);
++    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
++    color: var(--text-primary);
++    font-weight: 700;
++    transition: all 0.3s ease;
++    will-change: transform, box-shadow;
++  }
++  .glass-button:hover {
++    box-shadow: 0 0 35px rgba(99, 102, 241, 0.45);
++    transform: scale(1.03);
++    border-color: rgba(139, 92, 246, 0.8);
++  }
++
++  /* Glass Button Secondary / Outline */
++  .glass-button-outline {
++    background: rgba(255, 255, 255, 0.04);
++    border: 1px solid rgba(255, 255, 255, 0.15);
++    backdrop-filter: blur(10px);
++    -webkit-backdrop-filter: blur(10px);
++    color: var(--text-primary);
++    font-weight: 600;
++    transition: all 0.3s ease;
++  }
++  .glass-button-outline:hover {
++    background: rgba(255, 255, 255, 0.08);
++    border-color: rgba(255, 255, 255, 0.25);
++    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
++  }
++
++  /* Glass Input */
++  .glass-input {
++    background: rgba(255, 255, 255, 0.03);
++    border: 1px solid rgba(255, 255, 255, 0.08);
++    backdrop-filter: blur(8px);
++    -webkit-backdrop-filter: blur(8px);
++    color: var(--text-primary);
++    border-radius: var(--radius-md);
++    padding: 0.75rem 1rem;
++    font-size: 0.875rem;
++    transition: all 0.25s ease;
++  }
++  .glass-input::placeholder {
++    color: var(--text-muted);
++  }
++  .glass-input:focus {
++    outline: none;
++    border-color: rgba(99, 102, 241, 0.6);
++    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
++  }
++
++  /* Glass Select */
++  .glass-select {
++    background: rgba(255, 255, 255, 0.03);
++    border: 1px solid rgba(255, 255, 255, 0.08);
++    backdrop-filter: blur(8px);
++    -webkit-backdrop-filter: blur(8px);
++    color: var(--text-primary);
++    border-radius: var(--radius-md);
++    padding: 0.625rem 1rem;
++    font-size: 0.875rem;
++  }
++  .glass-select:focus {
++    outline: none;
++    border-color: rgba(99, 102, 241, 0.6);
++    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
++  }
++  .glass-select option {
++    background: #0f1225;
++    color: var(--text-primary);
++  }
++
++  /* Section utilities */
+   .section-padding {
+     @apply px-4 py-16 md:px-8 md:py-24 lg:px-16;
+   }
+ 
+   .section-title {
+-    @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4;
++    @apply font-heading text-3xl md:text-4xl lg:text-5xl font-bold mb-4;
++    color: var(--text-primary);
+   }
+ 
+   .section-subtitle {
+-    @apply font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto;
++    @apply font-body text-lg md:text-xl max-w-2xl mx-auto;
++    color: var(--text-secondary);
++    line-height: 1.7;
+   }
+ 
+   .decorative-line {
+-    @apply w-20 h-1 bg-primary rounded-full mx-auto my-6;
++    @apply w-20 h-1 rounded-full mx-auto my-6;
++    background: linear-gradient(90deg, var(--color-indigo), var(--color-cyan));
+   }
+ 
+   .card-hover {
+-    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
++    @apply transition-all duration-300;
++  }
++  .card-hover:hover {
++    transform: translateY(-4px);
++  }
++
++  /* Gradient text */
++  .text-gradient-hero {
++    background: linear-gradient(135deg, #E0E7FF, #818CF8, #06B6D4);
++    -webkit-background-clip: text;
++    -webkit-text-fill-color: transparent;
++    background-clip: text;
+   }
+ 
++  .text-gradient-accent {
++    background: linear-gradient(135deg, var(--color-indigo), var(--color-violet));
++    -webkit-background-clip: text;
++    -webkit-text-fill-color: transparent;
++    background-clip: text;
++  }
++
++  /* Gradient backgrounds (keeping tailwind class names for compatibility) */
+   .gradient-primary {
+-    background: linear-gradient(135deg, hsl(330 70% 35%), hsl(330 60% 50%));
++    background: linear-gradient(135deg, var(--color-indigo), var(--color-violet));
+   }
+ 
+   .gradient-warm {
+-    background: linear-gradient(135deg, hsl(330 70% 35%), hsl(35 80% 55%));
++    background: linear-gradient(135deg, var(--color-violet), var(--color-cyan));
+   }
+ 
+   .hero-overlay {
+-    background: linear-gradient(135deg, hsl(330 70% 25% / 0.85), hsl(330 50% 35% / 0.7));
++    background: linear-gradient(135deg, rgba(5, 8, 18, 0.85), rgba(99, 102, 241, 0.15));
+   }
+ 
+   .text-gradient {
+     @apply bg-clip-text text-transparent;
+-    background-image: linear-gradient(135deg, hsl(330 70% 35%), hsl(330 55% 50%));
++    background-image: linear-gradient(135deg, #818CF8, #06B6D4);
++  }
++
++  /* Grain texture overlay */
++  .grain-overlay {
++    position: fixed;
++    top: 0;
++    left: 0;
++    width: 100%;
++    height: 100%;
++    pointer-events: none;
++    z-index: 9999;
++    opacity: 0.04;
++    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
++    background-repeat: repeat;
++    background-size: 256px 256px;
++  }
++
++  /* Status badge styles */
++  .badge-green {
++    background: rgba(34, 197, 94, 0.15);
++    color: #4ade80;
++    border: 1px solid rgba(34, 197, 94, 0.25);
++    box-shadow: 0 0 12px rgba(34, 197, 94, 0.1);
++  }
++  .badge-amber {
++    background: rgba(245, 158, 11, 0.15);
++    color: #fbbf24;
++    border: 1px solid rgba(245, 158, 11, 0.25);
++    box-shadow: 0 0 12px rgba(245, 158, 11, 0.1);
++  }
++  .badge-red {
++    background: rgba(239, 68, 68, 0.15);
++    color: #f87171;
++    border: 1px solid rgba(239, 68, 68, 0.25);
++    box-shadow: 0 0 12px rgba(239, 68, 68, 0.1);
++  }
++  .badge-blue {
++    background: rgba(59, 130, 246, 0.15);
++    color: #60a5fa;
++    border: 1px solid rgba(59, 130, 246, 0.25);
++    box-shadow: 0 0 12px rgba(59, 130, 246, 0.1);
++  }
++  .badge-violet {
++    background: rgba(139, 92, 246, 0.15);
++    color: #a78bfa;
++    border: 1px solid rgba(139, 92, 246, 0.25);
++    box-shadow: 0 0 12px rgba(139, 92, 246, 0.1);
+   }
+ }
+ 
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++/* ANIMATIONS                                                                 */
++/* ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü */
++
+ @layer utilities {
+   .animate-fade-up {
+     animation: fadeUp 0.6s ease-out forwards;
+@@ -152,6 +363,20 @@
+   .animate-count-up {
+     animation: fadeUp 0.8s ease-out forwards;
+   }
++
++  .animate-float-1 {
++    animation: float1 25s ease-in-out infinite;
++  }
++  .animate-float-2 {
++    animation: float2 20s ease-in-out infinite;
++  }
++  .animate-float-3 {
++    animation: float3 30s ease-in-out infinite;
++  }
++
++  .animate-glow-pulse {
++    animation: glowPulse 3s ease-in-out infinite;
++  }
+ }
+ 
+ @keyframes fadeUp {
+@@ -169,3 +394,39 @@
+   from { opacity: 0; }
+   to { opacity: 1; }
+ }
++
++@keyframes float1 {
++  0%, 100% { transform: translate(0, 0) scale(1); }
++  33% { transform: translate(30px, -30px) scale(1.05); }
++  66% { transform: translate(-20px, 20px) scale(0.95); }
++}
++
++@keyframes float2 {
++  0%, 100% { transform: translate(0, 0) scale(1); }
++  33% { transform: translate(-40px, 20px) scale(1.08); }
++  66% { transform: translate(25px, -15px) scale(0.97); }
++}
++
++@keyframes float3 {
++  0%, 100% { transform: translate(0, 0) scale(1); }
++  25% { transform: translate(20px, -40px) scale(1.03); }
++  50% { transform: translate(-30px, 10px) scale(1.06); }
++  75% { transform: translate(15px, 25px) scale(0.98); }
++}
++
++@keyframes glowPulse {
++  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
++  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.5); }
++}
++
++/* Print styles (admin) */
++@media print {
++  .glass-card, .glass-navbar, .glass-modal {
++    background: white !important;
++    backdrop-filter: none !important;
++    -webkit-backdrop-filter: none !important;
++    color: black !important;
++    border: 1px solid #ddd !important;
++    box-shadow: none !important;
++  }
++}
+diff --git a/src/pages/Index.tsx b/src/pages/Index.tsx
+index 7fac1ea..5083b4d 100644
+--- a/src/pages/Index.tsx
++++ b/src/pages/Index.tsx
+@@ -1,11 +1,10 @@
+ import { Link } from "react-router-dom";
+-import { Heart, Users, BookOpen, Package, TrendingUp, HandHeart, ArrowRight, Shield, Eye, Sparkles, Quote, Stethoscope, Play } from "lucide-react";
++import { Heart, Users, BookOpen, Package, TrendingUp, HandHeart, ArrowRight, Shield, Eye, Sparkles, Quote, Stethoscope } from "lucide-react";
+ import { motion } from "framer-motion";
+ import { useData } from "@/hooks/useData";
+ import heroImg from "@/assets/hero-children.jpg";
+ import founderField from "@/assets/founder-field.jpg";
+ import teamDistribution from "@/assets/team-distribution.jpg";
+-import ramadanCollecte from "@/assets/ramadan-collecte.jpg";
+ 
+ import type { Easing } from "framer-motion";
+ 
+@@ -36,16 +35,16 @@ const scaleIn = {
+ 
+ 
+ const actions = [
+-  { icon: Package, title: "Distribution de vivres", desc: "Kits alimentaires pour les familles les plus vuln├®rables du Niger.", color: "bg-primary/10" },
+-  { icon: BookOpen, title: "Scolarisation", desc: "Soutien ├á l'├®ducation des orphelins et enfants d├®munis.", color: "bg-warm/10" },
+-  { icon: Users, title: "Aide aux familles", desc: "Accompagnement des veuves et familles en situation pr├®caire.", color: "bg-accent" },
+-  { icon: TrendingUp, title: "Autonomisation", desc: "Appui ├á l'autonomisation ├®conomique des communaut├®s.", color: "bg-primary/10" },
+-  { icon: HandHeart, title: "Actions solidaires", desc: "Campagnes communautaires et initiatives de solidarit├®.", color: "bg-warm/10" },
+-  { icon: Stethoscope, title: "Sant├® & Soins", desc: "Prise en charge m├®dicale et distribution de kits de premiers soins pour les plus d├®munis.", color: "bg-accent/80" },
++  { icon: Package, title: "Distribution de vivres", desc: "Kits alimentaires pour les familles les plus vuln├®rables du Niger.", gradient: "from-amber-500/20 to-orange-500/10" },
++  { icon: BookOpen, title: "Scolarisation", desc: "Soutien ├á l'├®ducation des orphelins et enfants d├®munis.", gradient: "from-blue-500/20 to-indigo-500/10" },
++  { icon: Users, title: "Aide aux familles", desc: "Accompagnement des veuves et familles en situation pr├®caire.", gradient: "from-violet-500/20 to-purple-500/10" },
++  { icon: TrendingUp, title: "Autonomisation", desc: "Appui ├á l'autonomisation ├®conomique des communaut├®s.", gradient: "from-emerald-500/20 to-teal-500/10" },
++  { icon: HandHeart, title: "Actions solidaires", desc: "Campagnes communautaires et initiatives de solidarit├®.", gradient: "from-rose-500/20 to-pink-500/10" },
++  { icon: Stethoscope, title: "Sant├® & Soins", desc: "Prise en charge m├®dicale et distribution de kits de premiers soins pour les plus d├®munis.", gradient: "from-cyan-500/20 to-sky-500/10" },
+ ];
+ 
+ const values = [
+-  { icon: Heart, title: "Compassion", desc: "Agir avec empathie envers chaque personne." },
++  { icon: Heart, title: "Compassion", desc: "Agir with empathie envers chaque personne." },
+   { icon: Eye, title: "Transparence", desc: "Rendre compte de chaque action et don re├ºu." },
+   { icon: Shield, title: "Dignit├®", desc: "Respecter la dignit├® de chaque b├®n├®ficiaire." },
+   { icon: Sparkles, title: "Espoir", desc: "Offrir un avenir meilleur aux plus vuln├®rables." },
+@@ -58,30 +57,32 @@ const testimonials = [
+ ];
+ 
+ const Index = () => {
+-  const { activites, dons } = useData();
++  const { activites, dons, loading } = useData();
+   const totalBeneficiaires = activites.reduce((s, a) => s + a.beneficiaires, 0);
+   const liveDonsCount = dons.filter(d => d.statut === "re├ºu").length;
+ 
+   const stats = [
+-    { value: `${500 + totalBeneficiaires}+`, label: "B├®n├®ficiaires aid├®s", icon: Users },
+-    { value: `${200 + liveDonsCount}+`, label: "Dons enregistr├®s", icon: Heart },
+-    { value: `${50 + activites.length}+`, label: "Actions r├®alis├®es", icon: Sparkles },
++    { value: loading ? "..." : `${500 + totalBeneficiaires}+`, label: "B├®n├®ficiaires aid├®s", icon: Users },
++    { value: loading ? "..." : `${200 + liveDonsCount}+`, label: "Dons enregistr├®s", icon: Heart },
++    { value: loading ? "..." : `${50 + activites.length}+`, label: "Actions r├®alis├®es", icon: Sparkles },
+     { value: "5", label: "Ann├®es d'engagement", icon: Shield },
+   ];
+ 
+   return (
+     <>
+-      {/* Hero */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* HERO                                                                  */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
+       <section className="relative min-h-screen flex items-center overflow-hidden">
+         <div className="absolute inset-0">
+           <img src={heroImg} alt="Enfants du Niger" className="w-full h-full object-cover scale-105" />
+-          <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/50 to-foreground/80" />
+-          <div className="absolute inset-0 hero-overlay opacity-60" />
++          <div className="absolute inset-0 bg-gradient-to-b from-[#050812]/80 via-[#050812]/60 to-[#050812]/90" />
++          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1), rgba(6,182,212,0.08))' }} />
+         </div>
+ 
+-        {/* Decorative shapes */}
+-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
+-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-warm/10 rounded-full blur-3xl" />
++        {/* Decorative glowing shapes */}
++        <div className="absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl animate-float-1" style={{ background: 'rgba(99, 102, 241, 0.15)' }} />
++        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-float-2" style={{ background: 'rgba(6, 182, 212, 0.1)' }} />
+ 
+         <div className="relative z-10 container mx-auto px-4 py-32 text-center">
+           <motion.div
+@@ -89,10 +90,15 @@ const Index = () => {
+             animate="visible"
+             variants={fadeUp}
+             custom={0}
+-            className="inline-flex items-center gap-2 bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 rounded-full px-5 py-2 mb-8"
++            className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-8"
++            style={{
++              background: 'rgba(255,255,255,0.06)',
++              backdropFilter: 'blur(12px)',
++              border: '1px solid rgba(255,255,255,0.1)',
++            }}
+           >
+-            <Heart size={14} className="text-primary-foreground" />
+-            <span className="text-primary-foreground/90 text-sm font-medium">Organisation humanitaire ┬À Niamey, Niger</span>
++            <Heart size={14} className="text-indigo-400" />
++            <span style={{ color: 'rgba(248,250,252,0.7)' }} className="text-sm font-medium">Organisation humanitaire ┬À Niamey, Niger</span>
+           </motion.div>
+ 
+           <motion.h1
+@@ -100,11 +106,11 @@ const Index = () => {
+             animate="visible"
+             variants={fadeUp}
+             custom={1}
+-            className="font-heading text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-primary-foreground mb-8 leading-[1.1] tracking-tight"
++            className="font-heading text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-[1.1] tracking-tight"
+           >
+-            Parce que chaque enfant
++            <span className="text-gradient-hero">Parce que chaque enfant</span>
+             <br />
+-            <span className="italic font-medium opacity-90">m├®rite espoir et dignit├®</span>
++            <span className="italic font-medium" style={{ color: 'rgba(248,250,252,0.8)' }}>m├®rite espoir et dignit├®</span>
+           </motion.h1>
+ 
+           <motion.p
+@@ -112,7 +118,8 @@ const Index = () => {
+             animate="visible"
+             variants={fadeUp}
+             custom={2}
+-            className="text-primary-foreground/85 text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mb-12 font-body leading-relaxed font-light"
++            className="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mb-12 font-body leading-relaxed font-light"
++            style={{ color: 'rgba(248,250,252,0.65)' }}
+           >
+             Ouwar Marayu ┼ôuvre au Niger pour redonner le sourire aux orphelins, aux veuves et aux familles vuln├®rables ├á travers des actions concr├¿tes et durables.
+           </motion.p>
+@@ -126,7 +133,7 @@ const Index = () => {
+           >
+             <Link
+               to="/solidarite"
+-              className="group gradient-primary text-primary-foreground px-10 py-4 rounded-xl text-lg font-semibold hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 inline-flex items-center gap-3"
++              className="group glass-button px-10 py-4 rounded-glass-md text-lg font-semibold inline-flex items-center gap-3"
+             >
+               <Heart size={20} />
+               Faire un don
+@@ -134,7 +141,7 @@ const Index = () => {
+             </Link>
+             <Link
+               to="/a-propos"
+-              className="border-2 border-primary-foreground/30 text-primary-foreground px-10 py-4 rounded-xl text-lg font-semibold hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all duration-300 backdrop-blur-sm"
++              className="glass-button-outline px-10 py-4 rounded-glass-md text-lg font-semibold inline-flex items-center gap-2"
+             >
+               D├®couvrir notre mission
+             </Link>
+@@ -148,26 +155,24 @@ const Index = () => {
+           transition={{ delay: 2 }}
+           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+         >
+-          <span className="text-primary-foreground/50 text-xs uppercase tracking-widest">D├®filer</span>
+-          <div className="w-5 h-8 border-2 border-primary-foreground/30 rounded-full flex justify-center">
++          <span style={{ color: 'rgba(248,250,252,0.35)' }} className="text-xs uppercase tracking-widest">D├®filer</span>
++          <div className="w-5 h-8 rounded-full flex justify-center" style={{ border: '2px solid rgba(255,255,255,0.2)' }}>
+             <motion.div
+               animate={{ y: [0, 10, 0] }}
+               transition={{ repeat: Infinity, duration: 1.5 }}
+-              className="w-1 h-2 bg-primary-foreground/60 rounded-full mt-1.5"
++              className="w-1 h-2 rounded-full mt-1.5"
++              style={{ background: 'rgba(129, 140, 248, 0.8)' }}
+             />
+           </div>
+         </motion.div>
+       </section>
+ 
+-      {/* Impact Stats */}
+-      <section className="relative bg-primary text-primary-foreground py-20 overflow-hidden">
+-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary opacity-90" />
+-        <div className="absolute top-0 left-0 w-full h-full">
+-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-foreground/5 rounded-full" />
+-          <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-primary-foreground/5 rounded-full" />
+-        </div>
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* IMPACT STATS                                                          */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      <section className="relative py-20 overflow-hidden">
+         <div className="container mx-auto px-4 relative z-10">
+-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
++          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+             {stats.map((stat, i) => (
+               <motion.div
+                 key={i}
+@@ -176,22 +181,27 @@ const Index = () => {
+                 viewport={{ once: true, margin: "-50px" }}
+                 variants={scaleIn}
+                 custom={i}
+-                className="text-center group"
++                className="glass-card glass-card-hover text-center p-8 group"
++                style={{ borderTop: `2px solid ${['rgba(99,102,241,0.4)', 'rgba(6,182,212,0.4)', 'rgba(139,92,246,0.4)', 'rgba(99,102,241,0.4)'][i]}` }}
+               >
+-                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary-foreground/10 flex items-center justify-center group-hover:bg-primary-foreground/20 transition-colors">
+-                  <stat.icon size={24} className="text-primary-foreground/80" />
++                <div
++                  className="w-14 h-14 mx-auto mb-4 rounded-glass-md flex items-center justify-center transition-colors"
++                  style={{ background: 'rgba(99, 102, 241, 0.12)' }}
++                >
++                  <stat.icon size={24} className="text-indigo-400" />
+                 </div>
+-                <div className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-2 tracking-tight">{stat.value}</div>
+-                <div className="text-primary-foreground/70 text-sm md:text-base font-body">{stat.label}</div>
++                <div className="text-4xl md:text-5xl font-heading font-bold mb-2 tracking-tight font-mono text-gradient-hero">{stat.value}</div>
++                <div style={{ color: 'rgba(248,250,252,0.5)' }} className="text-sm font-body">{stat.label}</div>
+               </motion.div>
+             ))}
+           </div>
+         </div>
+       </section>
+ 
+-      {/* About Preview */}
+-      <section className="relative section-padding bg-background overflow-hidden overflow-hidden">
+-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* ABOUT PREVIEW                                                         */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      <section className="relative section-padding overflow-hidden">
+         <div className="container mx-auto relative z-10">
+           <div className="grid lg:grid-cols-2 gap-16 items-center">
+             <motion.div
+@@ -199,25 +209,25 @@ const Index = () => {
+               whileInView="visible"
+               viewport={{ once: true, margin: "-100px" }}
+             >
+-              <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
++              <motion.span variants={fadeUp} custom={0} className="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-3 block">
+                 Notre histoire
+               </motion.span>
+               <motion.h2 variants={fadeUp} custom={1} className="section-title !mb-6">
+                 Une mission port├®e<br />par le c┼ôur
+               </motion.h2>
+-              <motion.div variants={fadeUp} custom={2} className="w-20 h-1 bg-primary rounded-full mb-8" />
+-              <motion.p variants={fadeUp} custom={3} className="text-muted-foreground leading-relaxed mb-6 text-lg">
+-                Fond├®e par <strong className="text-foreground">Mme Ma├»mouna Modi Abdoulaye</strong>, Ouwar Marayu est une organisation humanitaire nig├®rienne
++              <motion.div variants={fadeUp} custom={2} className="decorative-line !mx-0 !my-6" />
++              <motion.p variants={fadeUp} custom={3} className="leading-relaxed mb-6 text-lg" style={{ color: 'rgba(248,250,252,0.55)' }}>
++                Fond├®e par <strong className="text-white">Mme Ma├»mouna Modi Abdoulaye</strong>, Ouwar Marayu est une organisation humanitaire nig├®rienne
+                 d├®di├®e ├á l'accompagnement des orphelins, des veuves et des familles vuln├®rables.
+               </motion.p>
+-              <motion.p variants={fadeUp} custom={4} className="text-muted-foreground leading-relaxed mb-8">
++              <motion.p variants={fadeUp} custom={4} className="leading-relaxed mb-8" style={{ color: 'rgba(248,250,252,0.45)' }}>
+                 Chaque jour, notre ├®quipe se mobilise sur le terrain pour apporter aide, dignit├® et espoir
+                 ├á ceux qui en ont le plus besoin. Notre action s'├®tend ├á travers tout le Niger.
+               </motion.p>
+               <motion.div variants={fadeUp} custom={5}>
+                 <Link
+                   to="/a-propos"
+-                  className="group inline-flex items-center gap-2 gradient-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
++                  className="group inline-flex items-center gap-2 glass-button px-6 py-3 rounded-glass-md font-semibold"
+                 >
+                   En savoir plus
+                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+@@ -236,19 +246,20 @@ const Index = () => {
+                 <img
+                   src={founderField}
+                   alt="Mme Ma├»mouna Modi Abdoulaye sur le terrain"
+-                  className="rounded-2xl shadow-2xl w-full object-cover aspect-[4/5]"
++                  className="rounded-glass-lg shadow-2xl w-full object-cover aspect-[4/5]"
++                  style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+                 />
+               </div>
+-              <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-2xl bg-accent -z-0" />
+-              <div className="absolute -top-6 -right-6 w-24 h-24 rounded-2xl bg-primary/15 -z-0" />
+-              <div className="absolute top-1/2 -left-10 bg-card rounded-xl shadow-xl p-4 z-20 hidden lg:block">
++              <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-glass-lg -z-0" style={{ background: 'rgba(99,102,241,0.15)' }} />
++              <div className="absolute -top-6 -right-6 w-24 h-24 rounded-glass-lg -z-0" style={{ background: 'rgba(139,92,246,0.12)' }} />
++              <div className="absolute top-1/2 -left-10 glass-card rounded-glass-md p-4 z-20 hidden lg:block">
+                 <div className="flex items-center gap-3">
+                   <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+-                    <Heart size={18} className="text-primary-foreground" />
++                    <Heart size={18} className="text-white" />
+                   </div>
+                   <div>
+-                    <div className="font-bold text-sm">5 ans</div>
+-                    <div className="text-muted-foreground text-xs">d'engagement</div>
++                    <div className="font-bold text-sm text-white">5 ans</div>
++                    <div className="text-xs" style={{ color: 'rgba(248,250,252,0.5)' }}>d'engagement</div>
+                   </div>
+                 </div>
+               </div>
+@@ -257,9 +268,10 @@ const Index = () => {
+         </div>
+       </section>
+ 
+-      {/* Values */}
+-      <section className="relative py-20 bg-gradient-to-br from-surface via-background to-primary/5 overflow-hidden">
+-        <div className="absolute top-1/2 left-0 w-80 h-80 bg-accent/30 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* VALUES                                                                */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      <section className="relative py-20 overflow-hidden">
+         <div className="container mx-auto px-4 relative z-10">
+           <motion.div
+             initial="hidden"
+@@ -267,7 +279,7 @@ const Index = () => {
+             viewport={{ once: true, margin: "-100px" }}
+             className="text-center mb-16"
+           >
+-            <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
++            <motion.span variants={fadeUp} custom={0} className="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-3 block">
+               Ce qui nous guide
+             </motion.span>
+             <motion.h2 variants={fadeUp} custom={1} className="section-title">Nos Valeurs</motion.h2>
+@@ -283,21 +295,26 @@ const Index = () => {
+                 viewport={{ once: true, margin: "-50px" }}
+                 variants={scaleIn}
+                 custom={i}
+-                className="group bg-card rounded-2xl p-8 text-center border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300"
++                className="group glass-card glass-card-hover p-8 text-center"
+               >
+-                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-accent flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+-                  <v.icon className="text-primary" size={28} />
++                <div
++                  className="w-16 h-16 mx-auto mb-5 rounded-glass-md flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all"
++                  style={{ background: 'rgba(99, 102, 241, 0.1)' }}
++                >
++                  <v.icon className="text-indigo-400" size={28} />
+                 </div>
+-                <h3 className="font-heading text-xl font-semibold mb-2">{v.title}</h3>
+-                <p className="text-muted-foreground text-sm leading-relaxed">{v.desc}</p>
++                <h3 className="font-heading text-xl font-semibold mb-2 text-white">{v.title}</h3>
++                <p style={{ color: 'rgba(248,250,252,0.45)' }} className="text-sm leading-relaxed">{v.desc}</p>
+               </motion.div>
+             ))}
+           </div>
+         </div>
+       </section>
+ 
+-      {/* Actions Preview */}
+-      <section className="section-padding bg-background overflow-hidden">
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* ACTIONS                                                               */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      <section className="section-padding overflow-hidden">
+         <div className="container mx-auto">
+           <motion.div
+             initial="hidden"
+@@ -305,7 +322,7 @@ const Index = () => {
+             viewport={{ once: true, margin: "-100px" }}
+             className="text-center mb-16"
+           >
+-            <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
++            <motion.span variants={fadeUp} custom={0} className="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-3 block">
+               Sur le terrain
+             </motion.span>
+             <motion.h2 variants={fadeUp} custom={1} className="section-title">Nos Actions</motion.h2>
+@@ -324,13 +341,16 @@ const Index = () => {
+                 viewport={{ once: true, margin: "-50px" }}
+                 variants={scaleIn}
+                 custom={i}
+-                className="group bg-card rounded-2xl p-8 shadow-sm border border-border hover:border-primary/20 hover:shadow-xl transition-all duration-300"
++                className="group glass-card glass-card-hover p-8"
+               >
+-                <div className={`w-14 h-14 rounded-xl ${action.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
+-                  <action.icon className="text-primary" size={26} />
++                <div
++                  className={`w-14 h-14 rounded-glass-md bg-gradient-to-br ${action.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}
++                  style={{ backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.08)' }}
++                >
++                  <action.icon className="text-indigo-400" size={26} />
+                 </div>
+-                <h3 className="font-heading text-xl font-semibold mb-3">{action.title}</h3>
+-                <p className="text-muted-foreground text-sm leading-relaxed">{action.desc}</p>
++                <h3 className="font-heading text-xl font-semibold mb-3 text-white">{action.title}</h3>
++                <p style={{ color: 'rgba(248,250,252,0.45)' }} className="text-sm leading-relaxed">{action.desc}</p>
+               </motion.div>
+             ))}
+           </div>
+@@ -344,7 +364,7 @@ const Index = () => {
+           >
+             <Link
+               to="/nos-actions"
+-              className="group inline-flex items-center gap-2 text-primary font-semibold hover:underline text-lg"
++              className="group inline-flex items-center gap-2 text-indigo-400 font-semibold hover:text-indigo-300 text-lg transition-colors"
+             >
+               Voir toutes nos actions
+               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+@@ -353,10 +373,13 @@ const Index = () => {
+         </div>
+       </section>
+ 
+-      {/* Photo Banner */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* PHOTO BANNER                                                          */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
+       <section className="relative h-80 md:h-96 overflow-hidden">
+         <img src={teamDistribution} alt="Distribution sur le terrain" className="w-full h-full object-cover" />
+-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 to-foreground/30" />
++        <div className="absolute inset-0 bg-gradient-to-r from-[#050812]/80 to-[#050812]/40" />
++        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.1), transparent)' }} />
+         <div className="absolute inset-0 flex items-center">
+           <motion.div
+             initial="hidden"
+@@ -365,16 +388,18 @@ const Index = () => {
+             variants={fadeUp}
+             className="container mx-auto px-4"
+           >
+-            <p className="text-primary-foreground/80 text-sm uppercase tracking-widest mb-3">Ensemble sur le terrain</p>
+-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-primary-foreground max-w-2xl leading-tight">
++            <p style={{ color: 'rgba(248,250,252,0.5)' }} className="text-sm uppercase tracking-widest mb-3">Ensemble sur le terrain</p>
++            <h2 className="font-heading text-3xl md:text-5xl font-bold max-w-2xl leading-tight text-gradient-hero">
+               Chaque action compte, chaque sourire est une victoire.
+             </h2>
+           </motion.div>
+         </div>
+       </section>
+ 
+-      {/* Testimonials */}
+-      <section className="section-padding bg-surface overflow-hidden">
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* TESTIMONIALS                                                          */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      <section className="section-padding overflow-hidden">
+         <div className="container mx-auto">
+           <motion.div
+             initial="hidden"
+@@ -382,7 +407,7 @@ const Index = () => {
+             viewport={{ once: true, margin: "-100px" }}
+             className="text-center mb-16"
+           >
+-            <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
++            <motion.span variants={fadeUp} custom={0} className="text-indigo-400 font-semibold text-sm uppercase tracking-widest mb-3 block">
+               Ils t├®moignent
+             </motion.span>
+             <motion.h2 variants={fadeUp} custom={1} className="section-title">T├®moignages</motion.h2>
+@@ -398,21 +423,21 @@ const Index = () => {
+                 viewport={{ once: true, margin: "-50px" }}
+                 variants={scaleIn}
+                 custom={i}
+-                className="relative bg-card rounded-2xl p-8 pt-10 border border-border hover:shadow-xl transition-all duration-300"
++                className="relative glass-card glass-card-hover p-8 pt-10"
+               >
+-                <div className="absolute -top-5 left-8 w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-lg">
+-                  <Quote size={18} className="text-primary-foreground" />
++                <div className="absolute -top-5 left-8 w-10 h-10 rounded-glass-sm gradient-primary flex items-center justify-center shadow-lg" style={{ boxShadow: '0 0 20px rgba(99,102,241,0.3)' }}>
++                  <Quote size={18} className="text-white" />
+                 </div>
+-                <p className="text-muted-foreground italic leading-relaxed mb-6 text-[15px]">
++                <p style={{ color: 'rgba(248,250,252,0.5)' }} className="italic leading-relaxed mb-6 text-[15px]">
+                   ┬½ {t.text} ┬╗
+                 </p>
+-                <div className="flex items-center gap-3 pt-4 border-t border-border">
+-                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+-                    <span className="text-primary font-bold text-sm">{t.author[0]}</span>
++                <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
++                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.15)' }}>
++                    <span className="text-indigo-400 font-bold text-sm">{t.author[0]}</span>
+                   </div>
+                   <div>
+-                    <p className="font-semibold text-sm">{t.author}</p>
+-                    <p className="text-muted-foreground text-xs">{t.role}</p>
++                    <p className="font-semibold text-sm text-white">{t.author}</p>
++                    <p style={{ color: 'rgba(248,250,252,0.4)' }} className="text-xs">{t.role}</p>
+                   </div>
+                 </div>
+               </motion.div>
+@@ -421,14 +446,14 @@ const Index = () => {
+         </div>
+       </section>
+ 
+-
+-
+-      {/* CTA */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
++      {/* CTA                                                                   */}
++      {/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */}
+       <section className="relative overflow-hidden">
+-        <div className="gradient-primary py-24 md:py-32">
++        <div className="py-24 md:py-32" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1), rgba(6,182,212,0.08))' }}>
+           <div className="absolute inset-0">
+-            <div className="absolute top-10 left-10 w-96 h-96 bg-primary-foreground/5 rounded-full blur-3xl" />
+-            <div className="absolute bottom-10 right-10 w-72 h-72 bg-primary-foreground/5 rounded-full blur-3xl" />
++            <div className="absolute top-10 left-10 w-96 h-96 rounded-full blur-3xl animate-float-1" style={{ background: 'rgba(99,102,241,0.1)' }} />
++            <div className="absolute bottom-10 right-10 w-72 h-72 rounded-full blur-3xl animate-float-2" style={{ background: 'rgba(6,182,212,0.08)' }} />
+           </div>
+           <motion.div
+             initial="hidden"
+@@ -436,18 +461,18 @@ const Index = () => {
+             viewport={{ once: true }}
+             className="container mx-auto px-4 text-center relative z-10"
+           >
+-            <motion.h2 variants={fadeUp} custom={0} className="font-heading text-3xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
++            <motion.h2 variants={fadeUp} custom={0} className="font-heading text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gradient-hero">
+               Chaque geste compte.
+               <br />
+-              <span className="italic font-medium opacity-90">Ensemble, redonnons espoir.</span>
++              <span className="italic font-medium" style={{ color: 'rgba(248,250,252,0.7)' }}>Ensemble, redonnons espoir.</span>
+             </motion.h2>
+-            <motion.p variants={fadeUp} custom={1} className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl mx-auto mb-10">
++            <motion.p variants={fadeUp} custom={1} className="text-lg md:text-xl max-w-2xl mx-auto mb-10" style={{ color: 'rgba(248,250,252,0.55)' }}>
+               Rejoignez Ouwar Marayu dans sa mission. Votre soutien peut changer des vies au Niger.
+             </motion.p>
+             <motion.div variants={fadeUp} custom={2}>
+               <Link
+                 to="/solidarite"
+-                className="group inline-flex items-center gap-3 bg-primary-foreground text-primary px-10 py-5 rounded-xl text-lg font-bold hover:shadow-2xl transition-all duration-300"
++                className="group glass-button inline-flex items-center gap-3 px-10 py-5 rounded-glass-md text-lg font-bold animate-glow-pulse"
+               >
+                 <Heart size={22} />
+                 Soutenir Ouwar Marayu
+diff --git a/tailwind.config.ts b/tailwind.config.ts
+index e931e6b..7a1abc4 100644
+--- a/tailwind.config.ts
++++ b/tailwind.config.ts
+@@ -14,8 +14,9 @@ export default {
+     },
+     extend: {
+       fontFamily: {
+-        heading: ['"Playfair Display"', 'Georgia', 'serif'],
+-        body: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
++        heading: ['"Syne"', 'system-ui', 'sans-serif'],
++        body: ['"DM Sans"', 'system-ui', 'sans-serif'],
++        mono: ['"JetBrains Mono"', 'monospace'],
+       },
+       colors: {
+         border: "hsl(var(--border))",
+@@ -66,11 +67,29 @@ export default {
+           border: "hsl(var(--sidebar-border))",
+           ring: "hsl(var(--sidebar-ring))",
+         },
++        // Glassmorphism specific
++        indigo: {
++          400: "#818CF8",
++          500: "#6366F1",
++        },
++        cyan: {
++          400: "#22D3EE",
++          500: "#06B6D4",
++        },
++        violet: {
++          400: "#A78BFA",
++          500: "#8B5CF6",
++        },
+       },
+       borderRadius: {
+         lg: "var(--radius)",
+         md: "calc(var(--radius) - 2px)",
+         sm: "calc(var(--radius) - 4px)",
++        "glass-sm": "10px",
++        "glass-md": "16px",
++        "glass-lg": "24px",
++        "glass-xl": "32px",
++        "pill": "999px",
+       },
+       keyframes: {
+         "accordion-down": {

@@ -1,0 +1,26 @@
+{
+  "hb_actualites": {
+    "select": "Success",
+    "insert": "null value in column \"titre\" of relation \"hb_actualites\" violates not-null constraint"
+  },
+  "hb_activites": {
+    "select": "Success",
+    "insert": "null value in column \"titre\" of relation \"hb_activites\" violates not-null constraint"
+  },
+  "hb_evenements": {
+    "select": "Success",
+    "insert": "null value in column \"titre\" of relation \"hb_evenements\" violates not-null constraint"
+  },
+  "hb_dons": {
+    "select": "Success",
+    "insert": "null value in column \"donateur\" of relation \"hb_dons\" violates not-null constraint"
+  },
+  "hb_causes": {
+    "select": "Success",
+    "insert": "null value in column \"nom\" of relation \"hb_causes\" violates not-null constraint"
+  },
+  "hb_photos": {
+    "select": "Success",
+    "insert": "null value in column \"url\" of relation \"hb_photos\" violates not-null constraint"
+  }
+}
