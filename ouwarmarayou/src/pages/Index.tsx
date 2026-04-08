@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Heart, Users, BookOpen, Package, TrendingUp, HandHeart, ArrowRight, Shield, Eye, Sparkles, Quote, Stethoscope, Play } from "lucide-react";
+import { Heart, Users, BookOpen, Package, TrendingUp, HandHeart, ArrowRight, Shield, Eye, Sparkles, Quote, Stethoscope } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useData } from "@/hooks/useData";
 import heroImg from "@/assets/hero-children.jpg";
 import founderField from "@/assets/founder-field.jpg";
 import teamDistribution from "@/assets/team-distribution.jpg";
-import ramadanCollecte from "@/assets/ramadan-collecte.jpg";
 
 import type { Easing } from "framer-motion";
 
@@ -20,13 +20,8 @@ const fadeUp = {
   }),
 };
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6 } },
-};
-
 const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.95 },
   visible: (i: number = 0) => ({
     opacity: 1,
     scale: 1,
@@ -34,14 +29,13 @@ const scaleIn = {
   }),
 };
 
-
 const actions = [
-  { icon: Package, title: "Distribution de vivres", desc: "Kits alimentaires pour les familles les plus vulnérables du Niger.", color: "bg-primary/10" },
-  { icon: BookOpen, title: "Scolarisation", desc: "Soutien à l'éducation des orphelins et enfants démunis.", color: "bg-warm/10" },
-  { icon: Users, title: "Aide aux familles", desc: "Accompagnement des veuves et familles en situation précaire.", color: "bg-accent" },
-  { icon: TrendingUp, title: "Autonomisation", desc: "Appui à l'autonomisation économique des communautés.", color: "bg-primary/10" },
-  { icon: HandHeart, title: "Actions solidaires", desc: "Campagnes communautaires et initiatives de solidarité.", color: "bg-warm/10" },
-  { icon: Stethoscope, title: "Santé & Soins", desc: "Prise en charge médicale et distribution de kits de premiers soins pour les plus démunis.", color: "bg-accent/80" },
+  { icon: Package, title: "Distribution de vivres", desc: "Kits alimentaires pour les familles les plus vulnérables du Niger." },
+  { icon: BookOpen, title: "Scolarisation", desc: "Soutien à l'éducation des orphelins et enfants démunis." },
+  { icon: Users, title: "Aide aux familles", desc: "Accompagnement des veuves et familles en situation précaire." },
+  { icon: TrendingUp, title: "Autonomisation", desc: "Appui à l'autonomisation économique des communautés." },
+  { icon: HandHeart, title: "Actions solidaires", desc: "Campagnes communautaires et initiatives de solidarité." },
+  { icon: Stethoscope, title: "Santé & Soins", desc: "Prise en charge médicale et distribution de kits de premiers soins pour les plus démunis." },
 ];
 
 const values = [
@@ -51,48 +45,40 @@ const values = [
   { icon: Sparkles, title: "Espoir", desc: "Offrir un avenir meilleur aux plus vulnérables." },
 ];
 
-const testimonials = [
-  { text: "Grâce à Ouwar Marayu, mes enfants ont pu reprendre le chemin de l'école. Je ne pourrai jamais assez les remercier.", author: "Fatima", role: "Mère de 4 orphelins" },
-  { text: "L'aide alimentaire reçue pendant le Ramadan a été un vrai soulagement pour toute notre famille.", author: "Amadou", role: "Bénéficiaire" },
-  { text: "L'engagement de Mme Maïmouna est exemplaire. Elle est présente sur le terrain, au plus près des familles.", author: "Ibrahim", role: "Partenaire humanitaire" },
-];
-
 const Index = () => {
+  const { t } = useTranslation();
   const { activites, dons } = useData();
+
   const totalBeneficiaires = activites.reduce((s, a) => s + a.beneficiaires, 0);
   const liveDonsCount = dons.filter(d => d.statut === "reçu").length;
 
   const stats = [
-    { value: `${500 + totalBeneficiaires}+`, label: "Bénéficiaires aidés", icon: Users },
-    { value: `${200 + liveDonsCount}+`, label: "Dons enregistrés", icon: Heart },
-    { value: `${50 + activites.length}+`, label: "Actions réalisées", icon: Sparkles },
-    { value: "5", label: "Années d'engagement", icon: Shield },
+    { value: `+${500 + totalBeneficiaires}`, label: t("Bénéficiaires aidés"), icon: Users },
+    { value: `+${200 + liveDonsCount}`, label: t("Dons enregistrés"), icon: Heart },
+    { value: `+${50 + activites.length}`, label: t("Actions réalisées"), icon: Sparkles },
+    { value: "+5", label: t("Années d'engagement"), icon: Shield },
   ];
 
   return (
-    <>
-      {/* Hero */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroImg} alt="Enfants du Niger" className="w-full h-full object-cover scale-105" />
+    <div className="relative">
+      {/* Hero Section - Restored to Balanced Version */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src={heroImg} alt="Hero" className="w-full h-full object-cover grayscale-[0.2]" />
           <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/50 to-foreground/80" />
-          <div className="absolute inset-0 hero-overlay opacity-60" />
+          <div className="absolute inset-0 bg-primary/20 mix-blend-multiply opacity-40" />
         </div>
 
-        {/* Decorative shapes */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-warm/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 container mx-auto px-4 py-32 text-center">
+        <div className="relative z-10 container mx-auto px-4 text-center mt-[-5vh] overflow-hidden">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             custom={0}
-            className="inline-flex items-center gap-2 bg-primary-foreground/15 backdrop-blur-sm border border-primary-foreground/20 rounded-full px-5 py-2 mb-8"
+            className="inline-flex items-center gap-2 bg-primary-foreground/15 backdrop-blur-md border border-primary-foreground/20 rounded-full px-5 py-2 mb-8 shadow-xl"
           >
-            <Heart size={14} className="text-primary-foreground" />
-            <span className="text-primary-foreground/90 text-sm font-medium">Organisation humanitaire · Niamey, Niger</span>
+            <Heart size={18} className="text-primary-foreground" />
+            <span className="text-primary-foreground/90 text-base md:text-lg font-medium tracking-wide">{t("Organisation humanitaire · Niamey, Niger")}</span>
           </motion.div>
 
           <motion.h1
@@ -100,11 +86,10 @@ const Index = () => {
             animate="visible"
             variants={fadeUp}
             custom={1}
-            className="font-heading text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-primary-foreground mb-8 leading-[1.1] tracking-tight"
+            className="font-heading text-[8vw] sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 leading-[1.1] tracking-tight drop-shadow-lg flex flex-col items-center"
           >
-            Parce que chaque enfant
-            <br />
-            <span className="italic font-medium opacity-90">mérite espoir et dignité</span>
+            <span className="whitespace-nowrap">{t("Parce que chaque enfant")}</span>
+            <span className="italic font-medium opacity-90 text-primary-foreground/90">{t("mérite espoir et dignité")}</span>
           </motion.h1>
 
           <motion.p
@@ -112,9 +97,9 @@ const Index = () => {
             animate="visible"
             variants={fadeUp}
             custom={2}
-            className="text-primary-foreground/85 text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mb-12 font-body leading-relaxed font-light"
+            className="text-white/85 text-xl md:text-2xl lg:text-3xl max-w-4xl mx-auto mb-12 font-body leading-relaxed font-light drop-shadow-md"
           >
-            Ouwar Marayu œuvre au Niger pour redonner le sourire aux orphelins, aux veuves et aux familles vulnérables à travers des actions concrètes et durables.
+            {t("Ouwar Marayu œuvre au Niger pour redonner le sourire aux orphelins, aux veuves et aux familles vulnérables.")}
           </motion.p>
 
           <motion.div
@@ -122,21 +107,21 @@ const Index = () => {
             animate="visible"
             variants={fadeUp}
             custom={3}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 md:mt-12"
           >
             <Link
               to="/solidarite"
-              className="group gradient-primary text-primary-foreground px-10 py-4 rounded-xl text-lg font-semibold hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 inline-flex items-center gap-3"
+              className="group glass-btn px-6 py-3 md:px-10 md:py-4 text-base md:text-lg font-bold rounded-xl flex items-center justify-center gap-2 md:gap-3 shadow-2xl whitespace-nowrap whitespace-normal-sm"
             >
-              <Heart size={20} />
-              Faire un don
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              <Heart size={20} className="fill-current shrink-0" />
+              <span className="whitespace-nowrap">{t("nav.donate")}</span>
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform shrink-0" />
             </Link>
             <Link
               to="/a-propos"
-              className="border-2 border-primary-foreground/30 text-primary-foreground px-10 py-4 rounded-xl text-lg font-semibold hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all duration-300 backdrop-blur-sm"
+              className="border-2 border-white/30 text-white px-10 py-4 rounded-xl text-lg font-bold hover:bg-white/10 transition-all backdrop-blur-sm"
             >
-              Découvrir notre mission
+              {t("notre mission")}
             </Link>
           </motion.div>
         </div>
@@ -146,26 +131,21 @@ const Index = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
         >
-          <span className="text-primary-foreground/50 text-xs uppercase tracking-widest">Défiler</span>
-          <div className="w-5 h-8 border-2 border-primary-foreground/30 rounded-full flex justify-center">
+          <div className="w-5 h-8 border-2 border-white/30 rounded-full flex justify-center">
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-1 h-2 bg-primary-foreground/60 rounded-full mt-1.5"
+              className="w-1 h-2 bg-white/60 rounded-full mt-1.5"
             />
           </div>
         </motion.div>
       </section>
 
-      {/* Impact Stats */}
-      <section className="relative bg-primary text-primary-foreground py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary opacity-90" />
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-foreground/5 rounded-full" />
-          <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-primary-foreground/5 rounded-full" />
-        </div>
+      {/* Impact Stats - Kept Modern but Integrated */}
+      <section className="relative py-20 z-20">
+        <div className="absolute inset-0 gradient-primary opacity-90" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {stats.map((stat, i) => (
@@ -173,246 +153,201 @@ const Index = () => {
                 key={i}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true }}
                 variants={scaleIn}
                 custom={i}
-                className="text-center group"
+                className="text-center group flex flex-col items-center"
               >
-                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary-foreground/10 flex items-center justify-center group-hover:bg-primary-foreground/20 transition-colors">
-                  <stat.icon size={24} className="text-primary-foreground/80" />
+                <div className="w-12 h-12 md:w-14 md:h-14 mb-4 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10 shadow-lg shrink-0">
+                  <stat.icon size={22} className="text-white md:size-24" />
                 </div>
-                <div className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-2 tracking-tight">{stat.value}</div>
-                <div className="text-primary-foreground/70 text-sm md:text-base font-body">{stat.label}</div>
+                <div className="text-3xl md:text-5xl lg:text-6xl font-heading font-bold mb-2 tracking-tight text-white leading-none">{stat.value}</div>
+                <div className="text-white/70 text-[10px] md:text-sm font-medium uppercase tracking-wider">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* About Preview */}
-      <section className="relative section-padding bg-background overflow-hidden overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="container mx-auto relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+      {/* Storytelling Section - Kept Asymmetrical Editorial Layout (User liked this!) */}
+      <section className="py-24 md:py-32 overflow-hidden bg-background/30">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row gap-20 items-center">
+            {/* Image Side */}
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative lg:w-1/2"
             >
-              <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
-                Notre histoire
-              </motion.span>
-              <motion.h2 variants={fadeUp} custom={1} className="section-title !mb-6">
-                Une mission portée<br />par le cœur
-              </motion.h2>
-              <motion.div variants={fadeUp} custom={2} className="w-20 h-1 bg-primary rounded-full mb-8" />
-              <motion.p variants={fadeUp} custom={3} className="text-muted-foreground leading-relaxed mb-6 text-lg">
-                Fondée par <strong className="text-foreground">Mme Maïmouna Modi Abdoulaye</strong>, Ouwar Marayu est une organisation humanitaire nigérienne
-                dédiée à l'accompagnement des orphelins, des veuves et des familles vulnérables.
-              </motion.p>
-              <motion.p variants={fadeUp} custom={4} className="text-muted-foreground leading-relaxed mb-8">
-                Chaque jour, notre équipe se mobilise sur le terrain pour apporter aide, dignité et espoir
-                à ceux qui en ont le plus besoin. Notre action s'étend à travers tout le Niger.
-              </motion.p>
-              <motion.div variants={fadeUp} custom={5}>
-                <Link
-                  to="/a-propos"
-                  className="group inline-flex items-center gap-2 gradient-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
-                >
-                  En savoir plus
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
+              <div className="relative z-10 rounded-[2rem] overflow-hidden shadow-2xl">
+                <img 
+                   src={founderField} 
+                  alt="Founder" 
+                  className="w-full aspect-[4/5] object-cover hover:scale-105 transition-transform duration-700" 
+                />
+              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/10 rounded-full blur-[100px] -z-10" />
+              <motion.div 
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-10 -left-10 glass-card p-6 md:p-8 rounded-3xl shadow-2xl z-20 hidden md:block"
+              >
+                <div className="flex items-center gap-4 md:gap-6">
+                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/30">
+                    <Heart size={28} />
+                  </div>
+                  <div>
+                    <div className="text-xl md:text-2xl font-black text-foreground">+5 ans</div>
+                    <div className="text-xs md:text-sm text-muted-foreground font-bold tracking-widest uppercase">Engagement</div>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={fadeIn}
-              className="relative"
-            >
-              <div className="relative z-10">
-                <img
-                  src={founderField}
-                  alt="Mme Maïmouna Modi Abdoulaye sur le terrain"
-                  className="rounded-2xl shadow-2xl w-full object-cover aspect-[4/5]"
-                />
-              </div>
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-2xl bg-accent -z-0" />
-              <div className="absolute -top-6 -right-6 w-24 h-24 rounded-2xl bg-primary/15 -z-0" />
-              <div className="absolute top-1/2 -left-10 bg-card rounded-xl shadow-xl p-4 z-20 hidden lg:block">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
-                    <Heart size={18} className="text-primary-foreground" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-sm">5 ans</div>
-                    <div className="text-muted-foreground text-xs">d'engagement</div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            {/* Text Side */}
+            <div className="lg:w-1/2 space-y-8 text-center lg:text-left relative z-10 w-full">
+              <motion.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                <span className="text-primary font-bold text-sm uppercase tracking-widest mb-3 block">Notre Histoire</span>
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight text-foreground">
+                  Une Mission <br /> <span className="text-gradient">Portée par le Cœur</span>
+                </h2>
+                <div className="w-20 h-1 bg-primary rounded-full mt-6 mx-auto lg:mx-0" />
+              </motion.div>
+
+              <motion.div variants={fadeUp} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+                <p>
+                  {t("Fondée par Mme Maïmouna Modi Abdoulaye, Ouwar Marayu est une organisation humanitaire nigérienne dédiée à l'accompagnement des orphelins, des veuves et des familles vulnérables.")}
+                </p>
+                <p>
+                  {t("Chaque jour, notre équipe se mobilise sur le terrain pour apporter aide, dignité et espoir à ceux qui en ont le plus besoin. Notre action s'étend à travers tout le Niger.")}
+                </p>
+              </motion.div>
+
+              <motion.div variants={fadeUp} custom={2} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                <Link 
+                  to="/a-propos" 
+                  className="group inline-flex items-center gap-3 text-foreground font-bold text-base uppercase tracking-widest border-b-2 border-primary/30 pb-2 hover:border-primary transition-all"
+                >
+                  {t("En savoir plus")}
+                  <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform text-primary" />
+                </Link>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Values */}
-      <section className="relative py-20 bg-gradient-to-br from-surface via-background to-primary/5 overflow-hidden">
-        <div className="absolute top-1/2 left-0 w-80 h-80 bg-accent/30 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-16"
-          >
-            <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
-              Ce qui nous guide
-            </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="section-title">Nos Valeurs</motion.h2>
-            <motion.div variants={fadeUp} custom={2} className="decorative-line" />
+      {/* Values Grid */}
+      <section className="py-20 md:py-32 bg-secondary/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-16">
+            <span className="text-primary font-bold text-sm uppercase tracking-widest mb-3 block">{t("Nos Valeurs")}</span>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-4">{t("Ce qui nous guide")}</h2>
+            <div className="w-20 h-1 bg-primary rounded-full mx-auto" />
           </motion.div>
-
+          
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((v, i) => (
               <motion.div
                 key={i}
+                variants={scaleIn}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                variants={scaleIn}
+                viewport={{ once: true }}
                 custom={i}
-                className="group bg-card rounded-2xl p-8 text-center border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300"
+                className="group glass-card p-10 text-center bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all duration-300"
               >
-                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-accent flex items-center justify-center group-hover:bg-primary/15 transition-colors">
-                  <v.icon className="text-primary" size={28} />
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                  <v.icon size={28} />
                 </div>
-                <h3 className="font-heading text-xl font-semibold mb-2">{v.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{v.desc}</p>
+                <h3 className="text-xl font-bold mb-4">{t(v.title)}</h3>
+                <p className="text-muted-foreground leading-relaxed text-sm font-medium">{t(v.desc)}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Actions Preview */}
-      <section className="section-padding bg-background overflow-hidden">
-        <div className="container mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-16"
-          >
-            <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
-              Sur le terrain
-            </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="section-title">Nos Actions</motion.h2>
-            <motion.div variants={fadeUp} custom={2} className="decorative-line" />
-            <motion.p variants={fadeUp} custom={3} className="section-subtitle mt-4">
-              Nous agissons sur plusieurs fronts pour transformer la vie des plus vulnérables.
-            </motion.p>
-          </motion.div>
+      {/* Actions Section */}
+      <section className="py-24 md:py-32">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-6xl font-heading font-bold mb-6 text-foreground">{t("nav.actions")}</h2>
+            <p className="text-lg md:text-xl text-muted-foreground font-medium">{t("Nous agissons sur plusieurs fronts pour transformer la vie des plus vulnérables.")}</p>
+            <div className="w-20 h-1 bg-primary rounded-full mx-auto mt-8" />
+          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {actions.map((action, i) => (
               <motion.div
                 key={i}
+                variants={scaleIn}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                variants={scaleIn}
+                viewport={{ once: true }}
                 custom={i}
-                className="group bg-card rounded-2xl p-8 shadow-sm border border-border hover:border-primary/20 hover:shadow-xl transition-all duration-300"
+                className="group relative glass-card p-10 overflow-hidden bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
               >
-                <div className={`w-14 h-14 rounded-xl ${action.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
-                  <action.icon className="text-primary" size={26} />
+                <div className="relative z-10 text-center sm:text-left">
+                  <div className="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center text-primary mb-8 mx-auto sm:mx-0 group-hover:scale-110 transition-transform">
+                    <action.icon size={26} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors">{t(action.title)}</h3>
+                  <p className="text-muted-foreground font-medium leading-relaxed text-sm">{t(action.desc)}</p>
                 </div>
-                <h3 className="font-heading text-xl font-semibold mb-3">{action.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{action.desc}</p>
               </motion.div>
             ))}
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={fadeUp}
-            className="text-center mt-12"
-          >
-            <Link
-              to="/nos-actions"
-              className="group inline-flex items-center gap-2 text-primary font-semibold hover:underline text-lg"
+          <div className="text-center mt-16">
+            <Link 
+              to="/nos-actions" 
+              className="glass-btn px-10 py-4 rounded-xl font-bold flex items-center gap-3 mx-auto max-w-fit shadow-xl hover:scale-105 transition-all"
             >
-              Voir toutes nos actions
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              {t("Voir toutes nos actions")}
+              <ArrowRight size={18} />
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Photo Banner */}
-      <section className="relative h-80 md:h-96 overflow-hidden">
-        <img src={teamDistribution} alt="Distribution sur le terrain" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 to-foreground/30" />
-        <div className="absolute inset-0 flex items-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            className="container mx-auto px-4"
-          >
-            <p className="text-primary-foreground/80 text-sm uppercase tracking-widest mb-3">Ensemble sur le terrain</p>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-primary-foreground max-w-2xl leading-tight">
-              Chaque action compte, chaque sourire est une victoire.
-            </h2>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="section-padding bg-surface overflow-hidden">
-        <div className="container mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-16"
-          >
-            <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
-              Ils témoignent
-            </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="section-title">Témoignages</motion.h2>
-            <motion.div variants={fadeUp} custom={2} className="decorative-line" />
-          </motion.div>
-
+      {/* Testimonials Quote Style */}
+      <section className="py-24 md:py-32 bg-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="text-primary font-bold text-sm uppercase tracking-widest mb-3 block">{t("Témoignages")}</span>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground">{t("Ils témoignent")}</h2>
+          </div>
+          
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
+            {[
+              { text: "Grâce à Ouwar Marayu, mes enfants ont pu reprendre le chemin de l'école. Je ne pourrai jamais assez les remercier.", author: "Fatima", role: "Mère de 4 orphelins" },
+              { text: "L'aide alimentaire reçue pendant le Ramadan a été un vrai soulagement pour toute notre famille.", author: "Amadou", role: "Bénéficiaire" },
+              { text: "L'engagement de Mme Maïmouna est exemplaire. Elle est présente sur le terrain, au plus près des familles.", author: "Ibrahim", role: "Partenaire humanitaire" },
+            ].map((testimonial, i) => (
               <motion.div
                 key={i}
+                variants={scaleIn}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                variants={scaleIn}
+                viewport={{ once: true }}
                 custom={i}
-                className="relative bg-card rounded-2xl p-8 pt-10 border border-border hover:shadow-xl transition-all duration-300"
+                className="relative glass-card p-10 pt-14 text-center md:text-left"
               >
-                <div className="absolute -top-5 left-8 w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-lg">
-                  <Quote size={18} className="text-primary-foreground" />
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 md:left-10 md:translate-x-0 w-12 h-12 rounded-xl gradient-primary flex items-center justify-center shadow-xl">
+                  <Quote size={20} className="text-white" />
                 </div>
-                <p className="text-muted-foreground italic leading-relaxed mb-6 text-[15px]">
-                  « {t.text} »
+                <p className="text-muted-foreground italic leading-relaxed mb-8">
+                  « {t(testimonial.text)} »
                 </p>
-                <div className="flex items-center gap-3 pt-4 border-t border-border">
-                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                    <span className="text-primary font-bold text-sm">{t.author[0]}</span>
+                <div className="flex items-center justify-center md:justify-start gap-4 pt-6 border-t border-border/30">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                    {testimonial.author[0]}
                   </div>
                   <div>
-                    <p className="font-semibold text-sm">{t.author}</p>
-                    <p className="text-muted-foreground text-xs">{t.role}</p>
+                    <p className="font-bold text-foreground">{t(testimonial.author)}</p>
+                    <p className="text-muted-foreground text-xs">{t(testimonial.role)}</p>
                   </div>
                 </div>
               </motion.div>
@@ -421,43 +356,40 @@ const Index = () => {
         </div>
       </section>
 
-
-
-      {/* CTA */}
-      <section className="relative overflow-hidden">
-        <div className="gradient-primary py-24 md:py-32">
-          <div className="absolute inset-0">
-            <div className="absolute top-10 left-10 w-96 h-96 bg-primary-foreground/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-10 right-10 w-72 h-72 bg-primary-foreground/5 rounded-full blur-3xl" />
-          </div>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
+      {/* CTA Section - Bold but Clean */}
+      <section className="relative h-[60vh] flex items-center">
+        <div className="absolute inset-0 gradient-primary" />
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-[120px] translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-[120px] -translate-x-1/2 translate-y-1/2" />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <motion.div 
+            initial={{ scale: 0.95, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
-            className="container mx-auto px-4 text-center relative z-10"
+            className="max-w-4xl mx-auto flex flex-col items-center gap-6"
           >
-            <motion.h2 variants={fadeUp} custom={0} className="font-heading text-3xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-              Chaque geste compte.
-              <br />
-              <span className="italic font-medium opacity-90">Ensemble, redonnons espoir.</span>
-            </motion.h2>
-            <motion.p variants={fadeUp} custom={1} className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl mx-auto mb-10">
-              Rejoignez Ouwar Marayu dans sa mission. Votre soutien peut changer des vies au Niger.
-            </motion.p>
-            <motion.div variants={fadeUp} custom={2}>
-              <Link
-                to="/solidarite"
-                className="group inline-flex items-center gap-3 bg-primary-foreground text-primary px-10 py-5 rounded-xl text-lg font-bold hover:shadow-2xl transition-all duration-300"
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white leading-tight">
+              {t("Chaque geste compte. Ensemble, redonnons espoir.")}
+            </h2>
+            <p className="text-lg md:text-xl text-white/90 font-body max-w-2xl mx-auto font-light leading-relaxed">
+              {t("Rejoignez Ouwar Marayu dans sa mission. Votre soutien peut changer des vies au Niger.")}
+            </p>
+            <div className="mt-2">
+              <Link 
+                to="/solidarite" 
+                className="group bg-white text-primary px-12 py-5 rounded-2xl text-xl font-black hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center gap-4 mx-auto max-w-fit"
               >
-                <Heart size={22} />
-                Soutenir Ouwar Marayu
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <Heart size={24} className="fill-primary" />
+                {t("Soutenir Ouwar Marayu")}
               </Link>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

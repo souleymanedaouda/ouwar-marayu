@@ -4,9 +4,11 @@ import {
   Sparkles, TrendingUp, Gift, BookOpen, Stethoscope, AlertTriangle, Globe,
 } from "lucide-react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
 import { useCauses, useDons, useLoading, useData } from "@/hooks/useData";
 import { type CauseDon, type Don } from "@/types";
+import { getLocalized } from "@/utils/translationUtils";
 
 const CAMPAIGN_BASE_AMOUNT = 0;
 const CAMPAIGN_BASE_DONORS = 0;
@@ -77,6 +79,7 @@ function useCounter(target: number, duration: number = 2000) {
 }
 
 function CollecteProgress() {
+  const { t } = useTranslation();
   const dons = useDons();
   const liveDonations = dons.filter(d => d.statut === "reçu").reduce((s, d) => s + d.montant, 0);
   const liveDonorsCount = dons.filter(d => d.statut === "reçu").length;
@@ -84,7 +87,7 @@ function CollecteProgress() {
   const collected = CAMPAIGN_BASE_AMOUNT + liveDonations;
   const totalDonors = CAMPAIGN_BASE_DONORS + liveDonorsCount;
   const goal = CAMPAIGN_GOAL;
-  
+
   const percent = Math.min(100, Math.round((collected / goal) * 100));
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
@@ -92,18 +95,18 @@ function CollecteProgress() {
   const { count: countDonors } = useCounter(totalDonors);
 
   return (
-    <div ref={ref} className="bg-card border border-border rounded-2xl p-8 shadow-lg">
+    <div ref={ref} className="glass-panel p-8">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-sm text-muted-foreground font-medium uppercase tracking-widest mb-1">Collecte annuelle 2026</p>
+          <p className="text-sm text-muted-foreground font-medium uppercase tracking-widest mb-1">{t("Collecte annuelle 2026")}</p>
           <p className="font-heading text-2xl font-bold text-foreground">
             <span ref={refCollected}>{countCollected.toLocaleString("fr-FR")}</span> FCFA
           </p>
-          <p className="text-muted-foreground text-sm mt-1">sur 15 000 000 FCFA d'objectif</p>
+          <p className="text-muted-foreground text-sm mt-1">{t("sur 15 000 000 FCFA d'objectif")}</p>
         </div>
         <div className="text-right">
           <div className="text-4xl font-heading font-bold text-primary">{percent}%</div>
-          <div className="text-muted-foreground text-sm">{countDonors} donateurs</div>
+          <div className="text-muted-foreground text-sm">{countDonors} {t("donateurs")}</div>
         </div>
       </div>
       <div className="relative h-4 bg-muted rounded-full overflow-hidden">
@@ -123,24 +126,25 @@ function CollecteProgress() {
         />
       </div>
       <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-        <span>🌍 Mission permanente</span>
-        <span>Objectif : 15 000 000 FCFA</span>
+        <span>{t("🌍 Mission permanente")}</span>
+        <span>{t("Objectif : 15 000 000 FCFA")}</span>
       </div>
     </div>
   );
 }
 
 function RecentDonors() {
+  const { t } = useTranslation();
   const dons = useDons();
   const [visible, setVisible] = useState(0);
-  
+
   // Filtrer les dons reçus et prendre les 6 plus récents pour pouvoir faire du 3 par 3
   const allRecent = dons
     .filter(d => d.statut === "reçu")
     .map(d => ({
       name: d.donateur,
       cause: d.cause,
-      time: "récent",
+      time: t("récent"),
       amount: `${d.montant.toLocaleString("fr-FR")} FCFA`
     }));
 
@@ -154,24 +158,24 @@ function RecentDonors() {
   }, [allRecent.length]);
 
   return (
-    <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
+    <div className="glass-panel p-6">
       <div className="flex items-center gap-2 mb-5">
         <span className="relative flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
         </span>
-        <h3 className="font-semibold text-sm text-foreground">Dons récents</h3>
+        <h3 className="font-semibold text-sm text-foreground">{t("Dons récents")}</h3>
       </div>
       <div className="space-y-3 relative overflow-hidden" style={{ minHeight: "240px" }}>
         <AnimatePresence mode="wait">
           {allRecent.length === 0 ? (
-            <motion.div 
+            <motion.div
               key="empty"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="text-center py-10 text-muted-foreground text-sm"
             >
-              En attente des premiers dons... ❤️
+              {t("En attente des premiers dons... ❤️")}
             </motion.div>
           ) : (
             <motion.div
@@ -192,7 +196,7 @@ function RecentDonors() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate">{donor.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{donor.cause} · {donor.time}</p>
+                    <p className="text-xs text-muted-foreground truncate">{t(donor.cause)} · {donor.time}</p>
                   </div>
                   <span className="text-primary font-bold text-sm flex-shrink-0">{donor.amount}</span>
                 </div>
@@ -216,6 +220,7 @@ function DonationModal({
   onClose: () => void;
   onConfirm: (donData: { name: string; phone: string; method: string; amount: number }) => void;
 }) {
+  const { t } = useTranslation();
   const [step, setStep] = useState<"form" | "success">("form");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -243,7 +248,7 @@ function DonationModal({
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 30 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="bg-card rounded-3xl shadow-2xl w-full max-w-md border border-border overflow-hidden"
+        className="glass-modal w-full max-w-md overflow-hidden"
       >
         {step === "form" ? (
           <>
@@ -253,10 +258,10 @@ function DonationModal({
               </button>
               <div className="flex items-center gap-3 mb-2">
                 <Globe size={22} />
-                <span className="font-semibold text-sm opacity-90">Solidarité Permanente</span>
+                <span className="font-semibold text-sm opacity-90">{t("Solidarité Permanente")}</span>
               </div>
-              <h3 className="font-heading text-2xl font-bold">{cause ? cause.nom : "Don libre"}</h3>
-              <p className="text-primary-foreground/80 text-sm mt-1">{cause ? cause.impact : "Votre contribution compte"}</p>
+              <h3 className="font-heading text-2xl font-bold">{cause ? getLocalized(cause, 'nom') : t("Don libre")}</h3>
+              <p className="text-primary-foreground/80 text-sm mt-1">{cause ? getLocalized(cause, 'impact') : t("Votre contribution compte")}</p>
               <div className="mt-4 inline-flex items-center gap-2 bg-white/20 rounded-xl px-4 py-2">
                 <Heart size={16} />
                 <span className="font-bold text-xl">{amountLabel}</span>
@@ -264,18 +269,18 @@ function DonationModal({
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-semibold mb-2 text-foreground">Votre nom complet *</label>
+                <label className="block text-sm font-semibold mb-2 text-foreground">{t("Votre nom complet *")}</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Ex: Moussa Abdoulaye"
+                  placeholder={t("Ex: Moussa Abdoulaye")}
                   required
                   className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-foreground placeholder:text-muted-foreground"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-2 text-foreground">Numéro de téléphone *</label>
+                <label className="block text-sm font-semibold mb-2 text-foreground">{t("Numéro de téléphone *")}</label>
                 <input
                   type="tel"
                   value={phone}
@@ -286,18 +291,17 @@ function DonationModal({
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-3 text-foreground">Mode de paiement</label>
+                <label className="block text-sm font-semibold mb-3 text-foreground">{t("Mode de paiement")}</label>
                 <div className="grid grid-cols-3 gap-2">
                   {(["orange", "moov", "virement"] as const).map((m) => (
                     <button
                       key={m}
                       type="button"
                       onClick={() => setMethod(m)}
-                      className={`py-2.5 px-3 rounded-xl border-2 text-sm font-semibold transition-all ${
-                        method === m
+                      className={`py-2.5 px-3 rounded-xl border-2 text-sm font-semibold transition-all ${method === m
                           ? "border-primary bg-primary/10 text-primary"
                           : "border-border bg-background text-muted-foreground hover:border-primary/40"
-                      }`}
+                        }`}
                     >
                       {m === "orange" ? "🟠 Orange" : m === "moov" ? "🔵 Moov" : "🏦 Virement"}
                     </button>
@@ -320,10 +324,10 @@ function DonationModal({
                 className="w-full gradient-primary text-primary-foreground py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 flex items-center justify-center gap-2"
               >
                 <Heart size={20} />
-                Confirmer mon don
+                {t("Confirmer mon don")}
               </button>
               <p className="text-center text-xs text-muted-foreground">
-                🔒 Vos informations sont traitées de manière sécurisée et confidentielle.
+                {t("🔒 Vos informations sont traitées de manière sécurisée et confidentielle.")}
               </p>
             </form>
           </>
@@ -337,17 +341,17 @@ function DonationModal({
             >
               <CheckCircle className="text-green-500" size={40} />
             </motion.div>
-            <h3 className="font-heading text-2xl font-bold mb-3">Merci pour votre générosité ! 🌍</h3>
+            <h3 className="font-heading text-2xl font-bold mb-3">{t("Merci pour votre générosité ! 🌍")}</h3>
             <p className="text-muted-foreground leading-relaxed mb-2">
-              Merci <strong className="text-foreground">{name}</strong>, votre intention de don a bien été enregistrée.
+              {t("Merci")} <strong className="text-foreground">{name}</strong>, {t("votre intention de don a bien été enregistrée.")}
             </p>
             <p className="text-sm text-muted-foreground">
-              Notre équipe vous contactera pour finaliser le transfert. Ensemble on bâtit l'espoir ! ✨
+              {t("Notre équipe vous contactera pour finaliser le transfert. Ensemble on bâtit l'espoir ! ✨")}
             </p>
             <div className="mt-6 p-4 bg-muted/60 rounded-xl text-sm">
-              <p>❤️ {cause ? cause.nom : "Don libre"}</p>
+              <p>❤️ {cause ? getLocalized(cause, 'nom') : t("Don libre")}</p>
               <p className="font-bold text-primary mt-1">{amountLabel}</p>
-              <p>via {method === "orange" ? "Orange Money" : method === "moov" ? "Moov Money" : "Virement bancaire"}</p>
+              <p>{t("via")} {method === "orange" ? "Orange Money" : method === "moov" ? "Moov Money" : t("Virement bancaire")}</p>
             </div>
           </div>
         )}
@@ -357,29 +361,31 @@ function DonationModal({
 }
 
 function ImpactStats() {
+  const { t } = useTranslation();
   const stats = [
-    { icon: Users, label: "Familles soutenues", value: 312, suffix: "+" },
-    { icon: Package, label: "Kits distribués", value: 890, suffix: "+" },
-    { icon: BookOpen, label: "Enfants scolarisés", value: 145, suffix: "" },
-    { icon: TrendingUp, label: "Collecté en 2025", value: 11, suffix: "M FCFA" },
+    { icon: Users, label: t("Familles soutenues"), value: "+312", suffix: "" },
+    { icon: Package, label: t("Kits distribués"), value: "+890", suffix: "" },
+    { icon: BookOpen, label: t("Enfants scolarisés"), value: 145, suffix: "" },
+    { icon: TrendingUp, label: t("Collecté en 2025"), value: 11, suffix: "M FCFA" },
   ];
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {stats.map((s, i) => {
-        const { count, ref } = useCounter(s.value, 1800);
+        const numericValue = typeof s.value === "string" ? parseInt(s.value.replace("+", ""), 10) : s.value;
+        const { count, ref } = useCounter(numericValue as number, 1800);
         return (
           <motion.div
             key={i}
             variants={scaleIn}
             custom={i}
-            className="bg-card border border-border rounded-2xl p-6 text-center hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+            className="glass-card p-6 text-center bg-primary/5 border border-primary/10 transition-all hover:border-primary/20"
           >
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-xl glass-icon-bubble flex items-center justify-center mx-auto mb-3">
               <s.icon className="text-primary" size={22} />
             </div>
             <div className="font-heading font-bold text-2xl text-foreground">
-              <span ref={ref}>{count.toLocaleString("fr-FR")}</span>{s.suffix}
+              <span ref={ref}>{typeof s.value === "string" && s.value.startsWith("+") ? "+" : ""}{count.toLocaleString("fr-FR")}</span>{s.suffix}
             </div>
             <p className="text-muted-foreground text-xs mt-1">{s.label}</p>
           </motion.div>
@@ -390,6 +396,7 @@ function ImpactStats() {
 }
 
 const Solidarite = () => {
+  const { t } = useTranslation();
   const causes = useCauses();
   const loading = useLoading();
   const { setDons } = useData();
@@ -406,8 +413,8 @@ const Solidarite = () => {
   const handleCustomDonate = () => {
     if (!customAmount || customAmount < 1000) {
       toast({
-        title: "Montant invalide",
-        description: "Veuillez entrer un montant minimum de 1 000 FCFA.",
+        title: t("Montant invalide"),
+        description: t("Veuillez entrer un montant minimum de 1 000 FCFA."),
         variant: "destructive",
       });
       return;
@@ -418,7 +425,7 @@ const Solidarite = () => {
 
   const handleConfirm = (donData: { name: string; phone: string; method: string; amount: number }) => {
     setModalOpen(false);
-    
+
     // On l'enregistre comme reçu pour faire monter la barre immédiatement,
     // ou "en attente" dans un système réel avec validation manuelle.
     // L'utilisateur veut voir sa progression, donc on met "reçu".
@@ -432,12 +439,12 @@ const Solidarite = () => {
       statut: "reçu",
       date: new Date().toISOString().split("T")[0]
     };
-    
+
     setDons(prev => [newDon, ...prev]);
 
     toast({
-      title: "Don enregistré ! 🌍",
-      description: "Merci pour votre solidarité. Ensemble on bâtit l'espoir !",
+      title: t("Don enregistré ! 🌍"),
+      description: t("Merci pour votre solidarité. Ensemble on bâtit l'espoir !"),
     });
   };
 
@@ -488,25 +495,22 @@ const Solidarite = () => {
           </motion.div>
         ))}
 
-        <div className="relative z-10 container mx-auto px-4 py-32 text-left">
+        <div className="relative z-10 container py-32 text-left">
           <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0}
             className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-5 py-2 mb-8"
           >
             <Globe size={16} className="text-white" />
-            <span className="text-white/90 text-sm font-semibold">Solidarité Permanente · Ouwar Marayu</span>
+            <span className="text-white/90 text-sm font-semibold">{t("Solidarité Permanente · Ouwar Marayu")}</span>
           </motion.div>
           <motion.h1 initial="hidden" animate="visible" variants={fadeUp} custom={1}
             className="font-heading text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-8 leading-[1.1]"
           >
-            Ensemble, on bâtit
-            <br />
-            <span className="italic font-medium opacity-90">l'espoir</span>
+            {t("Ensemble, on bâtit l'espoir")}
           </motion.h1>
           <motion.p initial="hidden" animate="visible" variants={fadeUp} custom={2}
             className="text-white/85 text-lg md:text-xl max-w-2xl leading-relaxed mb-10"
           >
-            Au-delà des saisons, la solidarité ne s'arrête jamais. Soutenez nos actions pour
-            l'alimentation, l'éducation, la santé et le secours d'urgence des familles vulnérables de Niamey.
+            {t("Au-delà des saisons, la solidarité ne s'arrête jamais. Soutenez nos actions pour l'alimentation, l'éducation, la santé et le secours d'urgence des familles vulnérables de Niamey.")}
           </motion.p>
           <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={3}
             className="flex flex-col sm:flex-row gap-4 justify-start"
@@ -516,7 +520,7 @@ const Solidarite = () => {
               className="group gradient-primary text-primary-foreground px-10 py-4 rounded-xl text-lg font-bold hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 inline-flex items-center justify-center gap-3"
             >
               <Heart size={20} />
-              Faire un don maintenant
+              {t("Faire un don maintenant")}
               <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
@@ -524,19 +528,19 @@ const Solidarite = () => {
               className="border-2 border-white/30 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white/10 transition-all backdrop-blur-sm inline-flex items-center gap-2"
             >
               <TrendingUp size={18} />
-              Voir notre impact
+              {t("Voir notre impact")}
             </button>
           </motion.div>
         </div>
       </section>
 
       {/* PROGRESS + STATS */}
-      <section id="progress-section" className="section-padding bg-surface overflow-hidden">
+      <section id="progress-section" className="section-padding overflow-hidden">
         <div className="container mx-auto max-w-4xl">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}>
             <motion.div variants={fadeUp} custom={0} className="text-center mb-8">
-              <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-2 block">Progression annuelle</span>
-              <h2 className="section-title">Collecte 2026 en cours</h2>
+              <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-2 block">{t("Progression annuelle")}</span>
+              <h2 className="section-title">{t("Collecte 2026 en cours")}</h2>
               <div className="decorative-line" />
             </motion.div>
             <motion.div variants={fadeUp} custom={1}>
@@ -547,12 +551,12 @@ const Solidarite = () => {
       </section>
 
       {/* IMPACT STATS */}
-      <section className="py-16 bg-background overflow-hidden">
+      <section className="py-16 overflow-hidden">
         <div className="container mx-auto px-4">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}>
             <motion.div variants={fadeUp} custom={0} className="text-center mb-10">
-              <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-2 block">Notre impact en chiffres</span>
-              <h2 className="section-title">Ce que vos dons ont permis</h2>
+              <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-2 block">{t("Notre impact en chiffres")}</span>
+              <h2 className="section-title">{t("Ce que vos dons ont permis")}</h2>
               <div className="decorative-line" />
             </motion.div>
             <ImpactStats />
@@ -561,23 +565,23 @@ const Solidarite = () => {
       </section>
 
       {/* CAUSES DE DON */}
-      <section id="causes-section" className="section-padding bg-surface overflow-hidden">
+      <section id="causes-section" className="section-padding overflow-hidden">
         <div className="container mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}>
             <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block text-center">
-              Votre contribution
+              {t("Votre contribution")}
             </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="section-title text-center">Comment participer ?</motion.h2>
+            <motion.h2 variants={fadeUp} custom={1} className="section-title text-center">{t("Comment participer ?")}</motion.h2>
             <motion.div variants={fadeUp} custom={2} className="decorative-line" />
             <motion.p variants={fadeUp} custom={3} className="section-subtitle text-center mt-4 mb-12">
-              Choisissez une cause ou contribuez librement. Chaque don est un acte de solidarité qui change des vies.
+              {t("Choisissez une cause ou contribuez librement. Chaque don est un acte de solidarité qui change des vies.")}
             </motion.p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8 items-start">
             {/* Causes grid */}
             <div className="lg:col-span-2">
-              <div className="grid sm:grid-cols-2 gap-5">
+              <div className="grid sm:grid-cols-2 gap-5 w-full">
                 {loading ? (
                   [1, 2, 3, 4].map(i => (
                     <div key={i} className="bg-card rounded-2xl p-7 shadow-sm border border-border flex flex-col h-80 animate-pulse">
@@ -591,47 +595,47 @@ const Solidarite = () => {
                 ) : causes.length === 0 ? (
                   <div className="col-span-2 text-center py-16 text-muted-foreground">
                     <p className="text-5xl mb-4">❤️</p>
-                    <p className="text-lg font-medium">Aucune cause de don pour le moment.</p>
+                    <p className="text-lg font-medium">{t("Aucune cause de don pour le moment.")}</p>
                   </div>
                 ) : causes.map((cause, i) => {
                   const Icon = getCauseIcon(cause.nom);
                   const { bg, icon: iconCls } = getCauseColor(cause.nom);
                   return (
-                  <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-40px" }}
+                    <motion.div
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, margin: "-40px" }}
 
-                    key={cause.id}
-                    variants={scaleIn}
-                    custom={i}
-                    whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                    className={`group relative bg-gradient-to-br ${bg} bg-card rounded-2xl p-7 shadow-sm border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer`}
-                    onClick={() => handleDonate(cause)}
-                  >
-                    {cause.badge && (
-                      <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full">
-                        {cause.badge}
-                      </span>
-                    )}
-                    <div className="w-14 h-14 rounded-2xl bg-white/70 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <Icon className={iconCls} size={26} />
-                    </div>
-                    <h3 className="font-heading text-lg font-semibold mb-1">{cause.nom}</h3>
-                    <p className="text-primary font-bold text-2xl mb-2">{cause.montant.toLocaleString("fr-FR")} FCFA</p>
-                    <p className="text-muted-foreground text-sm flex-1 leading-relaxed mb-4">{cause.description}</p>
-                    <div className="flex items-center gap-2 text-xs font-semibold text-primary/80 bg-primary/10 rounded-lg px-3 py-2 mb-4">
-                      <Sparkles size={13} />
-                      <span>{cause.impact}</span>
-                    </div>
-                    <motion.button
-                      whileTap={{ scale: 0.97 }}
-                      className="mt-auto gradient-primary text-primary-foreground px-5 py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-primary/25 transition-all flex items-center justify-center gap-2"
+                      key={cause.id}
+                      variants={scaleIn}
+                      custom={i}
+                      whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                      className={`group relative bg-gradient-to-br ${bg} glass-card !rounded-2xl p-7 flex flex-col cursor-pointer border border-primary/10`}
+                      onClick={() => handleDonate(cause)}
                     >
-                      <Heart size={16} />
-                      Soutenir cette cause
-                    </motion.button>
-                  </motion.div>
+                      {cause.badge && (
+                        <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full">
+                          {getLocalized(cause, 'badge')}
+                        </span>
+                      )}
+                      <div className="w-14 h-14 rounded-2xl glass-icon-bubble flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <Icon className={iconCls} size={26} />
+                      </div>
+                      <h3 className="font-heading text-lg font-semibold mb-1">{getLocalized(cause, 'nom')}</h3>
+                      <p className="text-primary font-bold text-2xl mb-2">{cause.montant.toLocaleString("fr-FR")} FCFA</p>
+                      <p className="text-muted-foreground text-sm flex-1 leading-relaxed mb-4">{getLocalized(cause, 'description')}</p>
+                      <div className="flex items-center gap-2 text-xs font-semibold text-primary/80 bg-primary/10 rounded-lg px-3 py-2 mb-4">
+                        <Sparkles size={13} />
+                        <span>{getLocalized(cause, 'impact')}</span>
+                      </div>
+                      <motion.button
+                        whileTap={{ scale: 0.97 }}
+                        className="mt-auto gradient-primary text-primary-foreground px-5 py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-primary/25 transition-all flex items-center justify-center gap-2"
+                      >
+                        <Heart size={16} />
+                        {t("Soutenir cette cause")}
+                      </motion.button>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -642,15 +646,15 @@ const Solidarite = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
-                className="mt-6 bg-card border border-border rounded-2xl p-6"
+                className="mt-6 glass-panel p-6"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
                     <Gift className="text-primary" size={20} />
                   </div>
                   <div>
-                    <h3 className="font-heading font-semibold text-lg">Montant libre</h3>
-                    <p className="text-muted-foreground text-sm">Donnez le montant de votre choix</p>
+                    <h3 className="font-heading font-semibold text-lg">{t("Montant libre")}</h3>
+                    <p className="text-muted-foreground text-sm">{t("Donnez le montant de votre choix")}</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -672,7 +676,7 @@ const Solidarite = () => {
                     className="gradient-primary text-primary-foreground px-6 py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-primary/25 transition-all flex items-center gap-2"
                   >
                     <Heart size={16} />
-                    Donner
+                    {t("Donner")}
                   </motion.button>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -680,11 +684,10 @@ const Solidarite = () => {
                     <button
                       key={amt}
                       onClick={() => setCustomAmount(amt)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-semibold border-2 transition-all ${
-                        customAmount === amt
+                      className={`px-3 py-1.5 rounded-lg text-sm font-semibold border-2 transition-all ${customAmount === amt
                           ? "border-primary bg-primary/10 text-primary"
                           : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                      }`}
+                        }`}
                     >
                       {amt.toLocaleString("fr-FR")}
                     </button>
@@ -706,19 +709,19 @@ const Solidarite = () => {
                 viewport={{ once: true }}
                 variants={fadeUp}
                 custom={1}
-                className="bg-primary/5 border border-primary/20 rounded-2xl p-6"
+                className="glass-panel p-6"
               >
                 <Heart className="text-primary mb-3" size={24} />
                 <p className="text-muted-foreground italic leading-relaxed text-sm mb-4">
-                  « L'aide reçue a changé le destin de mes enfants. Ils peuvent maintenant aller à l'école et manger à leur faim. »
+                  « {t("L'aide reçue a changé le destin de mes enfants. Ils peuvent maintenant aller à l'école et manger à leur faim.")} »
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full gradient-primary flex items-center justify-center">
                     <span className="text-primary-foreground font-bold text-sm">H</span>
                   </div>
                   <div>
-                    <p className="font-semibold text-sm">Halima</p>
-                    <p className="text-muted-foreground text-xs">Bénéficiaire, Niamey</p>
+                    <p className="font-semibold text-sm">{t("Halima")}</p>
+                    <p className="text-muted-foreground text-xs">{t("Bénéficiaire, Niamey")}</p>
                   </div>
                 </div>
               </motion.div>
@@ -730,14 +733,14 @@ const Solidarite = () => {
                 viewport={{ once: true }}
                 variants={fadeUp}
                 custom={2}
-                className="bg-amber-50 border border-amber-200 rounded-2xl p-6"
+                className="glass-panel p-6 dark:border-amber-500/20"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <AlertTriangle className="text-amber-600" size={20} />
-                  <span className="font-semibold text-amber-800 text-sm">Appel d'urgence</span>
+                  <span className="font-semibold text-amber-800 text-sm">{t("Appel d'urgence")}</span>
                 </div>
                 <p className="text-amber-700 text-sm leading-relaxed">
-                  Des familles déplacées ont besoin d'aide immédiate. Votre don d'urgence est vital.
+                  {t("Des familles déplacées ont besoin d'aide immédiate. Votre don d'urgence est vital.")}
                 </p>
                 <button
                   onClick={() => {
@@ -745,7 +748,7 @@ const Solidarite = () => {
                   }}
                   className="mt-4 w-full bg-amber-600 text-white py-2.5 rounded-xl text-sm font-bold hover:bg-amber-700 transition-colors"
                 >
-                  Aider maintenant
+                  {t("Aider maintenant")}
                 </button>
               </motion.div>
             </div>
@@ -754,13 +757,13 @@ const Solidarite = () => {
       </section>
 
       {/* WHY DONATE */}
-      <section className="section-padding bg-background overflow-hidden">
+      <section className="section-padding overflow-hidden">
         <div className="container mx-auto max-w-3xl text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
             <motion.span variants={fadeUp} custom={0} className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
-              Nos valeurs
+              {t("Nos valeurs")}
             </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="section-title">Pourquoi donner avec nous ?</motion.h2>
+            <motion.h2 variants={fadeUp} custom={1} className="section-title">{t("Pourquoi donner avec nous ?")}</motion.h2>
             <motion.div variants={fadeUp} custom={2} className="decorative-line" />
             <motion.div variants={fadeUp} custom={3} className="grid md:grid-cols-3 gap-6 mt-10 text-left">
               {[
@@ -768,10 +771,10 @@ const Solidarite = () => {
                 { icon: "📊", title: "Transparence totale", desc: "Rapports financiers disponibles. Vous pouvez suivre l'impact de votre don en temps réel." },
                 { icon: "🤝", title: "Ancrage local", desc: "Nos équipes sont des membres de la communauté de Niamey. Ils connaissent les besoins réels." },
               ].map((v, i) => (
-                <div key={i} className="bg-card border border-border rounded-2xl p-6">
+                <div key={i} className="glass-card p-6 bg-primary/5 border border-primary/10 transition-all hover:border-primary/20">
                   <div className="text-3xl mb-3">{v.icon}</div>
-                  <h3 className="font-heading font-semibold text-lg mb-2">{v.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{v.desc}</p>
+                  <h3 className="font-heading font-semibold text-lg mb-2">{t(v.title)}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{t(v.desc)}</p>
                 </div>
               ))}
             </motion.div>
@@ -787,7 +790,7 @@ const Solidarite = () => {
         <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.05, 0.1, 0.05] }} transition={{ repeat: Infinity, duration: 10, delay: 2 }}
           className="absolute -bottom-20 -left-20 w-60 h-60 bg-primary-foreground rounded-full"
         />
-        <div className="container mx-auto px-4 text-center relative z-10">
+        <div className="container relative z-10 text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <motion.div variants={fadeUp} custom={0}>
               <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 2 }} className="inline-block">
@@ -795,10 +798,10 @@ const Solidarite = () => {
               </motion.div>
             </motion.div>
             <motion.h2 variants={fadeUp} custom={1} className="font-heading text-3xl md:text-5xl font-bold mb-6">
-              Chaque don compte.<br />Chaque vie compte.
+              {t("Chaque don compte. Chaque vie compte.")}
             </motion.h2>
             <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/85 text-lg md:text-xl max-w-2xl mx-auto mb-10">
-              Rejoignez les {134}+ donateurs qui font confiance à Ouwar Marayu pour transformer des vies au quotidien.
+              {t("Rejoignez les donateurs qui font confiance à Ouwar Marayu pour transformer des vies au quotidien.")}
             </motion.p>
             <motion.button
               variants={fadeUp}
@@ -808,7 +811,7 @@ const Solidarite = () => {
               className="inline-flex items-center gap-3 bg-white text-primary px-10 py-4 rounded-xl text-lg font-bold hover:shadow-2xl transition-all duration-300"
             >
               <Heart size={20} />
-              Faire un don maintenant
+              {t("Faire un don maintenant")}
             </motion.button>
           </motion.div>
         </div>

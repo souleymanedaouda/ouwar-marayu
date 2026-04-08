@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
 import { usePhotos, useLoading } from "@/hooks/useData";
+import { getLocalized } from "@/utils/translationUtils";
 import type { Easing } from "framer-motion";
 
 const ease: Easing = [0.25, 0.1, 0.25, 1];
@@ -25,6 +27,7 @@ const scaleIn = {
 };
 
 const Galerie = () => {
+  const { t } = useTranslation();
   const photos = usePhotos();
   const loading = useLoading();
   const [selected, setSelected] = useState<number | null>(null);
@@ -39,36 +42,36 @@ const Galerie = () => {
             initial="hidden" animate="visible" variants={fadeUp} custom={0}
             className="text-primary-foreground/70 text-sm uppercase tracking-widest mb-4 block font-semibold"
           >
-            En images
+            {t("En images")}
           </motion.span>
           <motion.h1
             initial="hidden" animate="visible" variants={fadeUp} custom={1}
             className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
           >
-            Galerie
+            {t("Galerie")}
           </motion.h1>
           <motion.p
             initial="hidden" animate="visible" variants={fadeUp} custom={2}
             className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
-            Découvrez en images les actions d'Ouwar Marayu sur le terrain.
+            {t("Découvrez en images les actions d'Ouwar Marayu sur le terrain.")}
           </motion.p>
         </div>
       </section>
 
-      <section className="section-padding bg-background overflow-hidden">
+      <section className="section-padding overflow-hidden">
         <div className="container mx-auto">
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-pulse">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="aspect-square bg-muted rounded-2xl" />
+                <div key={i} className="aspect-square glass-card !rounded-2xl" />
               ))}
             </div>
           ) : photos.length === 0 ? (
             <div className="text-center py-20 text-muted-foreground">
               <p className="text-5xl mb-4">📷</p>
-              <p className="text-lg font-medium">Aucune photo pour le moment.</p>
-              <p className="text-sm mt-2">L'administrateur peut en ajouter depuis l'interface admin.</p>
+              <p className="text-lg font-medium">{t("Aucune photo pour le moment.")}</p>
+              <p className="text-sm mt-2">{t("L'administrateur peut en ajouter depuis l'interface admin.")}</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -81,7 +84,7 @@ const Galerie = () => {
                   variants={scaleIn}
                   custom={i}
                   onClick={() => setSelected(i)}
-                  className="group overflow-hidden rounded-2xl aspect-square border border-border hover:border-primary/20 hover:shadow-xl transition-all duration-300 relative"
+                  className="group overflow-hidden rounded-2xl aspect-square glass-card !p-0 relative"
                 >
                   <img
                     src={photo.url}
@@ -93,7 +96,7 @@ const Galerie = () => {
                   />
                   {photo.legende && (
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white text-xs font-medium truncate">{photo.legende}</p>
+                      <p className="text-white text-xs font-medium truncate">{getLocalized(photo, 'legende')}</p>
                     </div>
                   )}
                 </motion.button>
@@ -110,7 +113,7 @@ const Galerie = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-foreground/90 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 glass-modal-overlay flex items-center justify-center p-4"
             onClick={() => setSelected(null)}
           >
             <button
@@ -120,8 +123,8 @@ const Galerie = () => {
               <X size={32} />
             </button>
             {photos[selected].legende && (
-              <p className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-4 py-2 rounded-full">
-                {photos[selected].legende}
+              <p className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium glass-panel !rounded-full px-4 py-2">
+                {getLocalized(photos[selected], 'legende')}
               </p>
             )}
             <motion.img

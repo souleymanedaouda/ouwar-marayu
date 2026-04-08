@@ -1,0 +1,22 @@
+{
+  "nav.home": "Accueil",
+  "nav.about": "À propos",
+  "nav.actions": "Nos Actions",
+  "nav.solidarity": "Solidarité",
+  "nav.team": "Notre Équipe",
+  "nav.gallery": "Galerie",
+  "nav.news": "Actualités",
+  "nav.donate": "💝 Faire un don",
+  "footer.description": "Organisation apolitique et à but non lucratif dédiée depuis 2021 à l'amélioration des conditions de vie des orphelins, veuves et enfants vulnérables au Niger.",
+  "footer.nav_title": "Navigation",
+  "footer.contact_title": "Contact",
+  "footer.address": "Niamey, Niger",
+  "footer.support_title": "Soutenez-nous",
+  "footer.support_text": "Chaque geste compte. Ensemble, redonnons espoir aux enfants du Niger.",
+  "footer.rights": "Tous droits réservés.",
+  "hero.badge": "Organisation Humanitaire au Niger",
+  "hero.title": "Donnez de l'espoir, <br/>changez des vies.",
+  "hero.subtitle": "Chaque jour, nous œuvrons pour offrir un avenir meilleur aux orphelins, aux veuves et aux enfants vulnérables.",
+  "hero.primary_btn": "Faire un don maintenant",
+  "hero.secondary_btn": "Découvrir nos actions"
+}

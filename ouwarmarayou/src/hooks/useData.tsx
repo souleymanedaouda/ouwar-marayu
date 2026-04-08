@@ -9,32 +9,6 @@ import {
   type Actualite 
 } from "@/types";
 
-// Import assets for defaults
-import founderField from "@/assets/founder-field.jpg";
-import teamDistribution from "@/assets/team-distribution.jpg";
-
-// --- Defaults ---
-const defaultPhotos: GaleriePhoto[] = [
-  { id: "e6a0d4b8-f8de-4f51-a9f4-18c9ecf8b5f1", url: founderField, alt: "Distribution sur le terrain", legende: "Distribution sur le terrain" },
-  { id: "42db5ec4-2a6c-48be-88be-db971c26b532", url: teamDistribution, alt: "Équipe de distribution", legende: "Équipe de distribution" },
-];
-
-const defaultActualites: Actualite[] = [
-  { id: "08e0ab85-1815-46f9-86f7-1dc00dbb1265", titre: "Grande distribution de kits", date: "Février 2026", extrait: "Ouwar Marayu a distribué plus de 200 kits alimentaires...", imageUrl: teamDistribution },
-];
-
-const defaultEvenements: Evenement[] = [
-  { id: "3f33dfb1-d30d-440a-ac0f-5b1287c703b0", titre: "Distribution alimentaire", date: "2026-04-10", lieu: "Quartier Gamkallé", description: "Pour 50 familles.", statut: "à venir" },
-];
-
-const defaultActivites: Activite[] = [
-  { id: "6f5eb1e3-c283-4a69-8260-84a1aaff5ee6", titre: "Programme nutrition enfants", categorie: "Alimentation", description: "Suivi nutritionnel mensuel.", beneficiaires: 45, date: "2026-03" },
-];
-
-const defaultCauses: CauseDon[] = [
-  { id: "ea00a12e-13c2-4a00-983f-8463c2242133", nom: "Secours Alimentaire", montant: 15000, description: "Riz, mil, huile pour 2 semaines.", impact: "1 famille nourrie", badge: "Urgent" },
-];
-
 // --- Context ---
 
 interface DataState {
@@ -48,12 +22,12 @@ interface DataState {
 }
 
 interface DataContextType extends DataState {
-  setPhotos: (v: GaleriePhoto[] | ((p: GaleriePhoto[]) => GaleriePhoto[])) => void;
-  setActualites: (v: Actualite[] | ((p: Actualite[]) => Actualite[])) => void;
-  setEvenements: (v: Evenement[] | ((p: Evenement[]) => Evenement[])) => void;
-  setActivites: (v: Activite[] | ((p: Activite[]) => Activite[])) => void;
-  setCauses: (v: CauseDon[] | ((p: CauseDon[]) => CauseDon[])) => void;
-  setDons: (v: Don[] | ((p: Don[]) => Don[])) => void;
+  setPhotos: (v: GaleriePhoto[] | ((p: GaleriePhoto[]) => GaleriePhoto[])) => Promise<boolean>;
+  setActualites: (v: Actualite[] | ((p: Actualite[]) => Actualite[])) => Promise<boolean>;
+  setEvenements: (v: Evenement[] | ((p: Evenement[]) => Evenement[])) => Promise<boolean>;
+  setActivites: (v: Activite[] | ((p: Activite[]) => Activite[])) => Promise<boolean>;
+  setCauses: (v: CauseDon[] | ((p: CauseDon[]) => CauseDon[])) => Promise<boolean>;
+  setDons: (v: Don[] | ((p: Don[]) => Don[])) => Promise<boolean>;
   refresh: () => Promise<void>;
 }
 
@@ -68,43 +42,99 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [dons, setDonsRaw] = useState<Don[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const safeFetch = async <T,>(key: string): Promise<T[]> => {
+    try {
+      return await dataService.getItems<T>(key);
+    } catch (e) {
+      console.warn(`[fetchData] Table "${key}" inaccessible (peut-être absente dans Supabase):`, e);
+      return [];
+    }
+  };
+
   const fetchData = async () => {
     setLoading(true);
-    const [remoteDons, remoteEvts, remoteActs, remoteCauses, remotePhotos, remoteActus] = await Promise.all([
-      dataService.getItems<Don>(KEYS.dons),
-      dataService.getItems<Evenement>(KEYS.evenements),
-      dataService.getItems<Activite>(KEYS.activites),
-      dataService.getItems<CauseDon>(KEYS.causes),
-      dataService.getItems<GaleriePhoto>(KEYS.photos),
-      dataService.getItems<Actualite>(KEYS.actualites),
-    ]);
+    try {
+      // Chaque table est récupérée indépendamment : une erreur sur l'une ne bloque pas les autres
+      const [remotePhotos, remoteActus, remoteDons, remoteActs, remoteEvts, remoteCauses] = await Promise.all([
+        safeFetch<GaleriePhoto>(KEYS.photos),
+        safeFetch<Actualite>(KEYS.actualites),
+        safeFetch<Don>(KEYS.dons),
+        safeFetch<Activite>(KEYS.activites),
+        safeFetch<Evenement>(KEYS.evenements),
+        safeFetch<CauseDon>(KEYS.causes),
+      ]);
 
-    setDonsRaw(remoteDons);
-    setEvenementsRaw(remoteEvts);
-    setActivitesRaw(remoteActs);
-    setCausesRaw(remoteCauses);
-    setPhotosRaw(remotePhotos);
-    setActualitesRaw(remoteActus);
-    setLoading(false);
+      setPhotosRaw(remotePhotos);
+      setActualitesRaw(remoteActus);
+      setDonsRaw(remoteDons);
+      setActivitesRaw(remoteActs);
+      setEvenementsRaw(remoteEvts);
+      setCausesRaw(remoteCauses);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchData();
-    const subs = Object.values(KEYS).map(table => dataService.subscribe(table, fetchData));
-    return () => { subs.forEach(s => s.unsubscribe()); };
+    let mounted = true;
+    
+    const init = async () => {
+      await fetchData();
+      if (!mounted) return;
+      
+      const subs = Object.values(KEYS).map(table => 
+        dataService.subscribe(table, () => {
+          if (mounted) fetchData();
+        })
+      );
+
+      return () => {
+        mounted = false;
+        subs.forEach(s => s.unsubscribe());
+      };
+    };
+
+    const cleanupPromise = init();
+    return () => {
+      mounted = false;
+      cleanupPromise.then(cleanup => cleanup && cleanup());
+    };
   }, []);
 
-  const createSetter = <T extends {id?: string}>(table: string, setRaw: any) => (v: T[] | ((p: T[]) => T[])) => {
-    setRaw((prev: T[]) => {
-      const next = typeof v === "function" ? (v as (p: T[]) => T[])(prev) : v;
+  const createSetter = <T extends {id?: string}>(table: string, setRaw: React.Dispatch<React.SetStateAction<T[]>>) =>
+    (v: T[] | ((p: T[]) => T[])): Promise<boolean> => {
+      return new Promise<boolean>((resolve) => {
+        setRaw((prev: T[]) => {
+          const next = typeof v === "function" ? (v as (p: T[]) => T[])(prev) : v;
+
+          // Déclenche l'action DB en dehors du cycle de rendu React
+          handleDatabaseAction(table, prev, next).then(resolve);
+
+          return next;
+        });
+      });
+    };
+
+  const handleDatabaseAction = async (table: string, prev: any[], next: any[]): Promise<boolean> => {
+    try {
       if (next.length > prev.length) {
-        // Ajout
-        const added = next.find(n => !prev.some(p => p.id === n.id));
-        if (added) dataService.insertItem(table, added);
+        // Ajout - On identifie TOUS les nouveaux items
+        const addedItems = next.filter(n => !prev.some(p => p.id === n.id));
+        if (addedItems.length > 0) {
+          const success = await dataService.insertItems(table, addedItems);
+          if (!success) {
+            console.error(`[useData] Échec de l'insertion groupée dans ${table}`);
+            return false;
+          }
+        }
+        return true;
       } else if (next.length < prev.length) {
-        // Suppression
-        const removed = prev.find(p => !next.some(n => n.id === p.id));
-        if (removed && removed.id) dataService.deleteItem(table, removed.id);
+        // Suppression - On identifie TOUS les items supprimés
+        const removedItems = prev.filter(p => !next.some(n => n.id === p.id));
+        for (const removed of removedItems) {
+          if (removed.id) await dataService.deleteItem(table, removed.id);
+        }
+        return true;
       } else {
         // Mise à jour potentielle
         const updated = next.find(n => {
@@ -112,11 +142,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
           return p && JSON.stringify(p) !== JSON.stringify(n);
         });
         if (updated && updated.id) {
-          dataService.updateItem(table, updated.id, updated);
+          await dataService.updateItem(table, updated.id, updated);
         }
+        return true;
       }
-      return next;
-    });
+    } catch (e) {
+      console.error(`[useData] Exception DB pour ${table}:`, e);
+      return false;
+    }
   };
 
   const value = {

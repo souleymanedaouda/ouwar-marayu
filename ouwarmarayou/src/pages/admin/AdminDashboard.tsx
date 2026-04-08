@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Heart, Calendar, Activity, BarChart3, LogOut,
   Plus, Trash2, X, CheckCircle, Users, TrendingUp, DollarSign,
   Shield, Menu, Bell, ChevronRight, Save, Image, Newspaper,
-  Eye, EyeOff, Printer, UploadCloud, Pencil,
+  Eye, EyeOff, Printer, UploadCloud, Pencil, ArrowLeft, Globe
 } from "lucide-react";
 import { useData } from "@/hooks/useData";
 import { KEYS } from "@/services/dataService";
-import { 
-  type Don, type Evenement, type Activite, type CauseDon, type GaleriePhoto, type Actualite 
+import {
+  type Don, type Evenement, type Activite, type CauseDon, type GaleriePhoto, type Actualite
 } from "@/types";
 import { Modal, Field, StatCard } from "./components/AdminUI";
-import { 
-  AddPhotoForm, AddActuForm, AddEvtForm, AddActForm, AddCauseForm, AddDonForm 
+import {
+  AddPhotoForm, AddActuForm, AddEvtForm, AddActForm, AddCauseForm, AddDonForm
 } from "./components/AdminForms";
 
 const CAMPAIGN_BASE_AMOUNT = 0;
-const CAMPAIGN_GOAL = 15000000;
+const CAMPAIGN_GOAL = 16000000;
 
 
 // ─── Tabs ──────────────────────────────────────────────────────────────────────
@@ -78,32 +78,39 @@ const AdminDashboard = () => {
   const groups = [...new Set(navItems.map(n => n.group))];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex print:bg-white print:block">
+    <div className="min-h-screen bg-background flex print:bg-white print:block relative">
+      {/* Admin glass background blobs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle, hsl(330 70% 35% / 0.5) 0%, transparent 70%)', filter: 'blur(120px)', animation: 'blobFloat1 25s ease-in-out infinite', willChange: 'transform' }} />
+        <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] rounded-full opacity-15" style={{ background: 'radial-gradient(circle, hsl(35 80% 55% / 0.4) 0%, transparent 70%)', filter: 'blur(140px)', animation: 'blobFloat2 30s ease-in-out infinite', willChange: 'transform' }} />
+        <div className="absolute -bottom-20 left-1/3 w-[450px] h-[450px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, hsl(330 60% 70% / 0.4) 0%, transparent 70%)', filter: 'blur(120px)', animation: 'blobFloat3 22s ease-in-out infinite', willChange: 'transform' }} />
+      </div>
       {/* ── Sidebar ── */}
-      <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-100 shadow-lg transform transition-transform duration-300 flex flex-col ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 print:hidden`}>
-        <div className="p-5 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0">
-              <Shield size={20} className="text-white" />
+      <aside className={`fixed inset-y-0 left-0 z-40 w-72 gradient-primary shadow-2xl border-none transform transition-transform duration-300 flex flex-col ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 print:hidden text-white`}>
+        <div className="p-6 border-b border-white/10">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center flex-shrink-0 border border-white/30 shadow-inner">
+              <Shield size={22} className="text-white" />
             </div>
             <div>
-              <p className="font-heading font-bold text-gray-800 text-sm">Ouwar Marayu</p>
-              <p className="text-xs text-gray-400">Administration</p>
+              <p className="font-heading font-bold text-white text-base tracking-tight">Ouwar Marayu</p>
+              <p className="text-[10px] text-white/50 uppercase font-black tracking-widest leading-none mt-1">Plateforme Admin</p>
             </div>
           </div>
         </div>
 
-        <nav className="flex-1 p-4 overflow-y-auto space-y-4">
+        <nav className="flex-1 p-5 overflow-y-auto space-y-6">
           {groups.map(group => (
             <div key={group}>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-2">{group}</p>
+              <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-4 px-2">{group}</p>
               {navItems.filter(n => n.group === group).map((item) => (
                 <button key={item.id} onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all mb-1 ${
-                    activeTab === item.id ? "gradient-primary text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all mb-1.5 ${activeTab === item.id 
+                    ? "bg-white text-primary shadow-lg shadow-black/10 scale-[1.02]" 
+                    : "text-white/70 hover:bg-white/10 hover:text-white"
                   }`}
                 >
-                  <item.icon size={16} />
+                  <item.icon size={18} className={activeTab === item.id ? "text-primary" : "text-white/70"} />
                   {item.label}
                 </button>
               ))}
@@ -111,35 +118,40 @@ const AdminDashboard = () => {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-gray-100">
-          <button onClick={logout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
+        <div className="p-5 border-t border-white/10 bg-black/5">
+          <Link to="/"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold text-white/90 hover:bg-white/10 transition-colors mb-2"
           >
-            <LogOut size={18} />Déconnexion
+            <Globe size={18} className="text-white/70" />Visiter le site
+          </Link>
+          <button onClick={logout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold text-white/90 hover:bg-red-500/20 hover:text-red-100 transition-colors"
+          >
+            <LogOut size={18} className="text-white/70" />Déconnexion
           </button>
         </div>
       </aside>
 
-      {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
       {/* ── Main ── */}
-      <div className="flex-1 lg:ml-64 flex flex-col print:ml-0 print:w-full">
-        <header className="sticky top-0 z-20 bg-white border-b border-gray-100 px-4 md:px-8 h-16 flex items-center justify-between shadow-sm print:hidden">
-          <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-2 rounded-lg hover:bg-gray-100">
-              <Menu size={20} />
+      <div className="flex-1 lg:ml-72 flex flex-col print:ml-0 print:w-full relative z-10">
+        <header className="sticky top-0 z-20 gradient-primary shadow-md px-6 md:px-8 h-16 flex items-center justify-between print:hidden border-none">
+          <div className="flex items-center gap-4">
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors">
+              <Menu size={22} />
             </button>
-            <h1 className="font-heading font-bold text-gray-800 text-base md:text-lg">
+            <h1 className="font-heading font-bold text-white text-base md:text-xl tracking-tight">
               {navItems.find(n => n.id === activeTab)?.label}
             </h1>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="relative p-2 rounded-lg hover:bg-gray-100">
-              <Bell size={20} className="text-gray-500" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+          <div className="flex items-center gap-4">
+            <button className="relative p-2.5 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors">
+              <Bell size={20} />
+              <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-primary shadow-sm" />
             </button>
-            <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center">
-              <span className="text-white font-bold text-sm">A</span>
+            <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center shadow-lg border border-white/50">
+              <span className="text-primary font-black text-sm">ADM</span>
             </div>
           </div>
         </header>
@@ -150,12 +162,12 @@ const AdminDashboard = () => {
             {/* ── OVERVIEW ── */}
             {activeTab === "overview" && (
               <motion.div key="overview" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                <p className="text-gray-400 text-sm mb-6">Bonjour Admin 👋 — Voici ce qui se passe sur le site.</p>
+                <p className="text-muted-foreground text-sm mb-6">Bonjour Admin 👋 — Voici ce qui se passe sur le site.</p>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <StatCard icon={Image} label="Photos galerie" value={photos.length} color="bg-violet-500" sub="visibles sur le site" />
                   <StatCard icon={Newspaper} label="Actualités" value={actualites.length} color="bg-blue-500" sub="articles publiés" />
                   <StatCard icon={Calendar} label="Événements" value={evenementsAVenir} color="bg-emerald-500" sub="à venir" />
-                  <StatCard icon={DollarSign} label="Dons reçus" value={`${Math.round(totalDons/1000)}k FCFA`} color="bg-primary" sub={`${dons.filter(d=>d.statut==="reçu").length} dons`} />
+                  <StatCard icon={DollarSign} label="Dons reçus" value={`${Math.round(totalDons / 1000)}k FCFA`} color="bg-primary" sub={`${dons.filter(d => d.statut === "reçu").length} dons`} />
                 </div>
 
                 {/* Quick access cards */}
@@ -169,11 +181,11 @@ const AdminDashboard = () => {
                     { tab: "dons" as Tab, icon: DollarSign, title: "Dons reçus", desc: `${dons.length} don(s) enregistré(s)`, color: "bg-primary/5 border-primary/10", iconColor: "text-primary" },
                   ].map((card) => (
                     <button key={card.tab} onClick={() => setActiveTab(card.tab)}
-                      className={`${card.color} border rounded-2xl p-5 text-left hover:shadow-md transition-shadow`}
+                      className={`glass-card p-5 text-left bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all`}
                     >
                       <card.icon className={`${card.iconColor} mb-3`} size={24} />
-                      <p className="font-heading font-bold text-gray-800 mb-1">{card.title}</p>
-                      <p className="text-gray-500 text-xs">{card.desc}</p>
+                      <p className="font-heading font-bold text-foreground mb-1">{card.title}</p>
+                      <p className="text-muted-foreground text-xs">{card.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -184,9 +196,9 @@ const AdminDashboard = () => {
             {activeTab === "galerie" && (
               <motion.div key="galerie" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-gray-500 text-sm">Ces photos s'affichent sur la page <strong>Galerie</strong> du site.</p>
+                  <p className="text-muted-foreground text-sm">Ces photos s'affichent sur la page <strong>Galerie</strong> du site.</p>
                   <button onClick={() => setShowPhotoForm(true)}
-                    className="btn-vibrant-green px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+                    className="gradient-primary border border-white/10 text-white shadow-lg shadow-primary/20 hover:shadow-[0_0_20px_rgba(149,27,101,0.5)] px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5"
                   >
                     <Plus size={16} />Ajouter une photo
                   </button>
@@ -194,7 +206,7 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
                   {photos.map((photo) => (
                     <motion.div key={photo.id} layout initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
-                      className="relative group aspect-square rounded-2xl overflow-hidden border border-gray-200 bg-gray-100"
+                      className="relative group aspect-square rounded-2xl overflow-hidden glass-card !p-0 bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
                     >
                       <img src={photo.url} alt={photo.alt} className="w-full h-full object-cover"
                         onError={(e) => { (e.target as HTMLImageElement).src = "https://placehold.co/200x200/f0e6f0/7d3c7d?text=Photo"; }}
@@ -212,7 +224,11 @@ const AdminDashboard = () => {
                           <Pencil size={14} />
                         </button>
                         <button
-                          onClick={() => { setPhotos(prev => prev.filter(p => p.id !== photo.id)); showToast("Photo supprimée de la galerie"); }}
+                          onClick={async () => {
+                            const success = await setPhotos(prev => prev.filter(p => p.id !== photo.id));
+                            if (success) showToast("Photo supprimée de la galerie");
+                            else showToast("❌ Erreur de suppression en base de données");
+                          }}
                           className="w-8 h-8 rounded-full btn-vibrant-red flex items-center justify-center"
                         >
                           <Trash2 size={14} />
@@ -221,7 +237,7 @@ const AdminDashboard = () => {
                     </motion.div>
                   ))}
                   {photos.length === 0 && (
-                    <div className="col-span-full text-center py-16 text-gray-400">
+                    <div className="col-span-full text-center py-16 text-muted-foreground">
                       <Image size={40} className="mx-auto mb-3 opacity-30" />
                       <p>Aucune photo. Ajoutez-en une ci-dessus.</p>
                     </div>
@@ -231,18 +247,24 @@ const AdminDashboard = () => {
                 <AnimatePresence>
                   {showPhotoForm && (
                     <Modal title="Ajouter une photo" onClose={() => setShowPhotoForm(false)}>
-                      <AddPhotoForm onAdd={(p) => { setPhotos(prev => [...prev, p]); setShowPhotoForm(false); showToast("Photo ajoutée à la galerie !"); }} />
+                      <AddPhotoForm onAdd={async (p) => {
+                        const success = await setPhotos(prev => [...prev, p]);
+                        setShowPhotoForm(false);
+                        if (success) showToast("Photo ajoutée à la galerie !");
+                        else showToast("❌ Erreur de sauvegarde en base de données");
+                      }} />
                     </Modal>
                   )}
                   {editingItem?.type === 'photo' && (
                     <Modal title="Modifier la photo" onClose={() => setEditingItem(null)}>
-                      <AddPhotoForm 
+                      <AddPhotoForm
                         initialData={editingItem.data}
-                        onAdd={(p) => { 
-                          setPhotos(prev => prev.map(old => old.id === p.id ? p : old));
-                          setEditingItem(null); 
-                          showToast("Photo mise à jour !"); 
-                        }} 
+                        onAdd={async (p) => {
+                          const success = await setPhotos(prev => prev.map(old => old.id === p.id ? p : old));
+                          setEditingItem(null);
+                          if (success) showToast("Photo mise à jour !");
+                          else showToast("❌ Erreur de sauvegarde");
+                        }}
                       />
                     </Modal>
                   )}
@@ -254,9 +276,9 @@ const AdminDashboard = () => {
             {activeTab === "actualites" && (
               <motion.div key="actualites" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-gray-500 text-sm">Ces articles s'affichent sur la page <strong>Actualités</strong> du site.</p>
+                  <p className="text-muted-foreground text-sm">Ces articles s'affichent sur la page <strong>Actualités</strong> du site.</p>
                   <button onClick={() => setShowActuForm(true)}
-                    className="btn-vibrant-green px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+                    className="gradient-primary border border-white/10 text-white shadow-[0_0_15px_rgba(149,27,101,0.2)] hover:shadow-[0_0_25px_rgba(149,27,101,0.4)] px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all duration-300"
                   >
                     <Plus size={16} />Ajouter un article
                   </button>
@@ -264,7 +286,7 @@ const AdminDashboard = () => {
                 <div className="grid md:grid-cols-2 gap-4 mt-6">
                   {actualites.map((actu) => (
                     <motion.div key={actu.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                      className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm flex flex-col"
+                      className="glass-card overflow-hidden flex flex-col bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
                     >
                       <div className="aspect-video bg-gray-100 overflow-hidden">
                         <img src={actu.imageUrl} alt={actu.titre} className="w-full h-full object-cover"
@@ -272,9 +294,9 @@ const AdminDashboard = () => {
                         />
                       </div>
                       <div className="p-4 flex-1">
-                        <p className="text-xs text-gray-400 mb-1">{actu.date}</p>
-                        <h3 className="font-heading font-bold text-gray-800 mb-2 text-sm">{actu.titre}</h3>
-                        <p className="text-gray-500 text-xs leading-relaxed">{actu.extrait}</p>
+                        <p className="text-xs text-muted-foreground mb-1">{actu.date}</p>
+                        <h3 className="font-heading font-bold text-foreground mb-2 text-sm">{actu.titre}</h3>
+                        <p className="text-muted-foreground text-xs leading-relaxed">{actu.extrait}</p>
                       </div>
                       <div className="px-4 pb-4 flex gap-2">
                         <button onClick={() => setEditingItem({ type: 'actu', data: actu })}
@@ -282,7 +304,11 @@ const AdminDashboard = () => {
                         >
                           <Pencil size={14} />Modifier
                         </button>
-                        <button onClick={() => { setActualites(prev => prev.filter(a => a.id !== actu.id)); showToast("Article supprimé"); }}
+                        <button onClick={async () => {
+                            const success = await setActualites(prev => prev.filter(a => a.id !== actu.id));
+                            if (success) showToast("Article supprimé");
+                            else showToast("❌ Erreur de suppression");
+                          }}
                           className="flex-1 py-2 rounded-xl btn-vibrant-red text-sm font-medium flex items-center justify-center gap-2"
                         >
                           <Trash2 size={14} />Supprimer
@@ -291,7 +317,7 @@ const AdminDashboard = () => {
                     </motion.div>
                   ))}
                   {actualites.length === 0 && (
-                    <div className="col-span-2 text-center py-16 text-gray-400">
+                    <div className="col-span-2 text-center py-16 text-muted-foreground">
                       <Newspaper size={40} className="mx-auto mb-3 opacity-30" />
                       <p>Aucun article. Ajoutez-en un ci-dessus.</p>
                     </div>
@@ -300,18 +326,24 @@ const AdminDashboard = () => {
                 <AnimatePresence>
                   {showActuForm && (
                     <Modal title="Ajouter un article" onClose={() => setShowActuForm(false)}>
-                      <AddActuForm onAdd={(a) => { setActualites(prev => [a, ...prev]); setShowActuForm(false); showToast("Article publié !"); }} />
+                      <AddActuForm onAdd={async (a) => {
+                        const success = await setActualites(prev => [a, ...prev]);
+                        setShowActuForm(false);
+                        if (success) showToast("Article publié !");
+                        else showToast("❌ Erreur de sauvegarde (données incomplètes ?)");
+                      }} />
                     </Modal>
                   )}
                   {editingItem?.type === 'actu' && (
                     <Modal title="Modifier l'article" onClose={() => setEditingItem(null)}>
-                      <AddActuForm 
+                      <AddActuForm
                         initialData={editingItem.data}
-                        onAdd={(a) => { 
-                          setActualites(prev => prev.map(old => old.id === a.id ? a : old));
-                          setEditingItem(null); 
-                          showToast("Article mis à jour !"); 
-                        }} 
+                        onAdd={async (a) => {
+                          const success = await setActualites(prev => prev.map(old => old.id === a.id ? a : old));
+                          setEditingItem(null);
+                          if (success) showToast("Article mis à jour !");
+                          else showToast("❌ Erreur de sauvegarde");
+                        }}
                       />
                     </Modal>
                   )}
@@ -323,9 +355,9 @@ const AdminDashboard = () => {
             {activeTab === "evenements" && (
               <motion.div key="evenements" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <div className="flex items-center justify-between mb-6">
-                  <p className="text-gray-500 text-sm">Événements affichés dans la vue d'ensemble admin et consultables par l'équipe.</p>
+                  <p className="text-muted-foreground text-sm">Événements affichés dans la vue d'ensemble admin et consultables par l'équipe.</p>
                   <button onClick={() => setShowEvtForm(true)}
-                    className="btn-vibrant-green px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+                    className="gradient-primary border border-white/10 text-white shadow-[0_0_15px_rgba(149,27,101,0.2)] hover:shadow-[0_0_25px_rgba(149,27,101,0.4)] px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all duration-300"
                   >
                     <Plus size={16} />Ajouter
                   </button>
@@ -333,12 +365,12 @@ const AdminDashboard = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   {evenements.map((evt) => (
                     <motion.div key={evt.id} layout initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
-                      className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm"
+                      className="glass-card p-6 bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
-                          <h3 className="font-heading font-bold text-gray-800">{evt.titre}</h3>
-                          <p className="text-gray-400 text-xs mt-0.5">{evt.date} · {evt.lieu}</p>
+                          <h3 className="font-heading font-bold text-foreground">{evt.titre}</h3>
+                          <p className="text-muted-foreground text-xs mt-0.5">{evt.date} · {evt.lieu}</p>
                         </div>
                         <div className="flex gap-1">
                           <button onClick={() => setEditingItem({ type: 'evt', data: evt })}
@@ -346,32 +378,42 @@ const AdminDashboard = () => {
                           >
                             <Pencil size={15} />
                           </button>
-                          <button onClick={() => { setEvenements(prev => prev.filter(e => e.id !== evt.id)); showToast("Événement supprimé"); }}
+                          <button onClick={async () => {
+                              const success = await setEvenements(prev => prev.filter(e => e.id !== evt.id));
+                              if (success) showToast("Événement supprimé");
+                              else showToast("❌ Erreur de suppression");
+                            }}
                             className="p-2 rounded-lg btn-vibrant-red"
                           >
                             <Trash2 size={15} />
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-500 text-sm leading-relaxed mb-3">{evt.description}</p>
-                      <span className={`text-xs px-3 py-1 rounded-full font-semibold ${evt.statut === "à venir" ? "bg-violet-100 text-violet-700" : evt.statut === "en cours" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"}`}>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-3">{evt.description}</p>
+                      <span className={`text-xs px-3 py-1 rounded-full font-semibold glass-pill ${evt.statut === "à venir" ? "bg-violet-500/20 text-violet-300 dark:text-violet-300 border-violet-500/30" : evt.statut === "en cours" ? "bg-blue-500/20 text-blue-300 border-blue-500/30" : "bg-muted text-muted-foreground border-border"}`}>
                         {evt.statut}
                       </span>
                     </motion.div>
                   ))}
-                  {evenements.length === 0 && <div className="col-span-2 text-center py-16 text-gray-400"><Calendar size={40} className="mx-auto mb-3 opacity-30" /><p>Aucun événement.</p></div>}
+                  {evenements.length === 0 && <div className="col-span-2 text-center py-16 text-muted-foreground"><Calendar size={40} className="mx-auto mb-3 opacity-30" /><p>Aucun événement.</p></div>}
                 </div>
                 <AnimatePresence>
-                  {showEvtForm && <Modal title="Ajouter un événement" onClose={() => setShowEvtForm(false)}><AddEvtForm onAdd={(e) => { setEvenements(prev => [e, ...prev]); setShowEvtForm(false); showToast("Événement ajouté !"); }} /></Modal>}
+                  {showEvtForm && <Modal title="Ajouter un événement" onClose={() => setShowEvtForm(false)}><AddEvtForm onAdd={async (e) => {
+                        const success = await setEvenements(prev => [e, ...prev]);
+                        setShowEvtForm(false);
+                        if (success) showToast("Événement ajouté !");
+                        else showToast("❌ Erreur de sauvegarde");
+                      }} /></Modal>}
                   {editingItem?.type === 'evt' && (
                     <Modal title="Modifier l'événement" onClose={() => setEditingItem(null)}>
-                      <AddEvtForm 
+                      <AddEvtForm
                         initialData={editingItem.data}
-                        onAdd={(e) => { 
-                          setEvenements(prev => prev.map(old => old.id === e.id ? e : old));
-                          setEditingItem(null); 
-                          showToast("Événement mis à jour !"); 
-                        }} 
+                        onAdd={async (e) => {
+                          const success = await setEvenements(prev => prev.map(old => old.id === e.id ? e : old));
+                          setEditingItem(null);
+                          if (success) showToast("Événement mis à jour !");
+                          else showToast("❌ Erreur de sauvegarde");
+                        }}
                       />
                     </Modal>
                   )}
@@ -383,9 +425,9 @@ const AdminDashboard = () => {
             {activeTab === "activites" && (
               <motion.div key="activites" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <div className="flex items-center justify-between mb-6">
-                  <p className="text-gray-500 text-sm">Projets et actions de terrain de l'association.</p>
+                  <p className="text-muted-foreground text-sm">Projets et actions de terrain de l'association.</p>
                   <button onClick={() => setShowActForm(true)}
-                    className="btn-vibrant-green px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+                    className="gradient-primary border border-white/10 text-white shadow-[0_0_15px_rgba(149,27,101,0.2)] hover:shadow-[0_0_25px_rgba(149,27,101,0.4)] px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all duration-300"
                   >
                     <Plus size={16} />Ajouter
                   </button>
@@ -393,13 +435,13 @@ const AdminDashboard = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {activites.map((act) => (
                     <motion.div key={act.id} layout initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
-                      className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm"
+                      className="glass-card p-6 bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
                           <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">{act.categorie}</span>
-                          <h3 className="font-heading font-bold text-gray-800 mt-2">{act.titre}</h3>
-                          <p className="text-gray-400 text-xs">{act.date}</p>
+                          <h3 className="font-heading font-bold text-foreground mt-2">{act.titre}</h3>
+                          <p className="text-muted-foreground text-xs">{act.date}</p>
                         </div>
                         <div className="flex gap-1">
                           <button onClick={() => setEditingItem({ type: 'act', data: act })}
@@ -407,33 +449,43 @@ const AdminDashboard = () => {
                           >
                             <Pencil size={15} />
                           </button>
-                          <button onClick={() => { setActivites(prev => prev.filter(a => a.id !== act.id)); showToast("Activité supprimée"); }}
+                          <button onClick={async () => {
+                              const success = await setActivites(prev => prev.filter(a => a.id !== act.id));
+                              if (success) showToast("Activité supprimée");
+                              else showToast("❌ Erreur de suppression");
+                            }}
                             className="p-2 rounded-lg btn-vibrant-red"
                           >
                             <Trash2 size={15} />
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-500 text-sm leading-relaxed my-3">{act.description}</p>
-                      <div className="flex items-center gap-2 bg-emerald-50 rounded-xl px-3 py-2">
+                      <p className="text-muted-foreground text-sm leading-relaxed my-3">{act.description}</p>
+                      <div className="flex items-center gap-2 glass-panel !rounded-xl px-3 py-2">
                         <Users size={14} className="text-emerald-600" />
                         <span className="text-emerald-700 font-semibold text-sm">{act.beneficiaires} bénéficiaires</span>
                       </div>
                     </motion.div>
                   ))}
-                  {activites.length === 0 && <div className="col-span-3 text-center py-16 text-gray-400"><Activity size={40} className="mx-auto mb-3 opacity-30" /><p>Aucune activité.</p></div>}
+                  {activites.length === 0 && <div className="col-span-3 text-center py-16 text-muted-foreground"><Activity size={40} className="mx-auto mb-3 opacity-30" /><p>Aucune activité.</p></div>}
                 </div>
                 <AnimatePresence>
-                  {showActForm && <Modal title="Ajouter une activité" onClose={() => setShowActForm(false)}><AddActForm onAdd={(a) => { setActivites(prev => [a, ...prev]); setShowActForm(false); showToast("Activité ajoutée !"); }} /></Modal>}
+                  {showActForm && <Modal title="Ajouter une activité" onClose={() => setShowActForm(false)}><AddActForm onAdd={async (a) => {
+                        const success = await setActivites(prev => [a, ...prev]);
+                        setShowActForm(false);
+                        if (success) showToast("Activité ajoutée !");
+                        else showToast("❌ Erreur de sauvegarde");
+                      }} /></Modal>}
                   {editingItem?.type === 'act' && (
                     <Modal title="Modifier l'activité" onClose={() => setEditingItem(null)}>
-                      <AddActForm 
+                      <AddActForm
                         initialData={editingItem.data}
-                        onAdd={(a) => { 
-                          setActivites(prev => prev.map(old => old.id === a.id ? a : old));
-                          setEditingItem(null); 
-                          showToast("Activité mise à jour !"); 
-                        }} 
+                        onAdd={async (a) => {
+                          const success = await setActivites(prev => prev.map(old => old.id === a.id ? a : old));
+                          setEditingItem(null);
+                          if (success) showToast("Activité mise à jour !");
+                          else showToast("❌ Erreur de sauvegarde");
+                        }}
                       />
                     </Modal>
                   )}
@@ -445,9 +497,9 @@ const AdminDashboard = () => {
             {activeTab === "causes" && (
               <motion.div key="causes" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-gray-500 text-sm">Ces causes s'affichent sur la page <strong>Solidarité</strong> du site.</p>
+                  <p className="text-muted-foreground text-sm">Ces causes s'affichent sur la page <strong>Solidarité</strong> du site.</p>
                   <button onClick={() => setShowCauseForm(true)}
-                    className="btn-vibrant-green px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+                    className="gradient-primary border border-white/10 text-white shadow-[0_0_15px_rgba(149,27,101,0.2)] hover:shadow-[0_0_25px_rgba(149,27,101,0.4)] px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all duration-300"
                   >
                     <Plus size={16} />Ajouter une cause
                   </button>
@@ -455,12 +507,12 @@ const AdminDashboard = () => {
                 <div className="grid md:grid-cols-2 gap-4 mt-6">
                   {causes.map((cause) => (
                     <motion.div key={cause.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                      className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm"
+                      className="glass-card p-6 bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
                     >
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-heading font-bold text-gray-800">{cause.nom}</h3>
+                            <h3 className="font-heading font-bold text-foreground">{cause.nom}</h3>
                             {cause.badge && <span className="text-xs font-bold bg-primary text-white px-2 py-0.5 rounded-full">{cause.badge}</span>}
                           </div>
                           <p className="font-bold text-primary text-xl">{cause.montant.toLocaleString("fr-FR")} FCFA</p>
@@ -471,14 +523,18 @@ const AdminDashboard = () => {
                           >
                             <Pencil size={15} />
                           </button>
-                          <button onClick={() => { setCauses(prev => prev.filter(c => c.id !== cause.id)); showToast("Cause supprimée de la page Solidarité"); }}
+                          <button onClick={async () => {
+                              const success = await setCauses(prev => prev.filter(c => c.id !== cause.id));
+                              if (success) showToast("Cause supprimée de la page Solidarité");
+                              else showToast("❌ Erreur de suppression");
+                            }}
                             className="p-2 rounded-lg btn-vibrant-red"
                           >
                             <Trash2 size={15} />
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-500 text-sm leading-relaxed mb-2">{cause.description}</p>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-2">{cause.description}</p>
                       <div className="flex items-center gap-2 bg-primary/5 rounded-lg px-3 py-2 text-sm text-primary font-semibold">
                         <Eye size={13} />{cause.impact}
                       </div>
@@ -494,18 +550,24 @@ const AdminDashboard = () => {
                 <AnimatePresence>
                   {showCauseForm && (
                     <Modal title="Ajouter une cause de don" onClose={() => setShowCauseForm(false)}>
-                      <AddCauseForm onAdd={(c) => { setCauses(prev => [...prev, c]); setShowCauseForm(false); showToast("Cause ajoutée à la page Solidarité !"); }} />
+                      <AddCauseForm onAdd={async (c) => {
+                        const success = await setCauses(prev => [...prev, c]);
+                        setShowCauseForm(false);
+                        if (success) showToast("Cause ajoutée à la page Solidarité !");
+                        else showToast("❌ Erreur de sauvegarde");
+                      }} />
                     </Modal>
                   )}
                   {editingItem?.type === 'cause' && (
                     <Modal title="Modifier la cause" onClose={() => setEditingItem(null)}>
-                      <AddCauseForm 
+                      <AddCauseForm
                         initialData={editingItem.data}
-                        onAdd={(c) => { 
-                          setCauses(prev => prev.map(old => old.id === c.id ? c : old));
-                          setEditingItem(null); 
-                          showToast("Cause mise à jour !"); 
-                        }} 
+                        onAdd={async (c) => {
+                          const success = await setCauses(prev => prev.map(old => old.id === c.id ? c : old));
+                          setEditingItem(null);
+                          if (success) showToast("Cause mise à jour !");
+                          else showToast("❌ Erreur de sauvegarde");
+                        }}
                       />
                     </Modal>
                   )}
@@ -517,54 +579,54 @@ const AdminDashboard = () => {
             {activeTab === "dons" && (
               <motion.div key="dons" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 <div className="flex items-center justify-between mb-6 print:hidden">
-                  <p className="text-gray-500 text-sm">Historique des dons enregistrés.</p>
+                  <p className="text-muted-foreground text-sm">Historique des dons enregistrés.</p>
                   <button onClick={() => setShowDonForm(true)}
-                    className="btn-vibrant-green px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2"
+                    className="gradient-primary border border-white/10 text-white shadow-[0_0_15px_rgba(149,27,101,0.2)] hover:shadow-[0_0_25px_rgba(149,27,101,0.4)] px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all duration-300"
                   >
                     <Plus size={16} />Enregistrer un don
                   </button>
                 </div>
-                
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6 print:border-none print:shadow-none print:p-0">
+
+                <div className="glass-panel p-6 mb-6 print:border-none print:shadow-none print:p-0">
                   <div className="flex justify-between items-end mb-2">
                     <div>
                       <p className="text-gray-500 text-sm font-semibold mb-1">Collecte Annuelle (Progressive)</p>
-                      <p className="font-heading font-bold text-2xl text-primary">{Math.round((CAMPAIGN_BASE_AMOUNT + totalDons)/1000)}k FCFA <span className="text-sm font-normal text-gray-400">/ {Math.round(CAMPAIGN_GOAL/1000)}k</span></p>
+                      <p className="font-heading font-bold text-2xl text-primary">{Math.round((CAMPAIGN_BASE_AMOUNT + totalDons) / 1000)}k FCFA <span className="text-sm font-normal text-gray-400">/ {Math.round(CAMPAIGN_GOAL / 1000)}k</span></p>
                     </div>
                     <button onClick={() => window.print()} className="btn-vibrant-blue px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 print:hidden">
                       <Printer size={16} /> Rapport PDF / Imprimer
                     </button>
                   </div>
-                  <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden mt-4 print:hidden">
+                  <div className="h-3 w-full bg-muted rounded-full overflow-hidden mt-4 print:hidden">
                     <div className="h-full bg-primary transition-all" style={{ width: `${Math.min(100, ((CAMPAIGN_BASE_AMOUNT + totalDons) / CAMPAIGN_GOAL) * 100)}%` }} />
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden print:border-none print:shadow-none">
+                <div className="glass-panel overflow-hidden print:border-none print:shadow-none">
                   <div className="overflow-x-auto">
                     <table className="w-full">
-                      <thead><tr className="bg-gray-50 text-left">
+                      <thead><tr className="glass-table-head text-left">
                         {["Donateur", "Montant", "Cause", "Mode", "Date", "Statut", ""].map(h => (
-                          <th key={h} className="px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+                          <th key={h} className="px-5 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{h}</th>
                         ))}
                       </tr></thead>
-                      <tbody className="divide-y divide-gray-50">
+                      <tbody className="divide-y divide-border/20">
                         {dons.map((don) => (
-                          <tr key={don.id} className="hover:bg-gray-50">
+                          <tr key={don.id} className="glass-table-row hover:bg-primary/5 hover:border-primary/20 transition-all duration-300 group cursor-default">
                             <td className="px-5 py-4">
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
                                   <span className="text-white font-bold text-xs">{don.donateur[0]}</span>
                                 </div>
-                                <span className="font-medium text-gray-800 text-sm whitespace-nowrap">{don.donateur}</span>
+                                <span className="font-medium text-foreground text-sm whitespace-nowrap">{don.donateur}</span>
                               </div>
                             </td>
                             <td className="px-5 py-4 font-bold text-primary text-sm whitespace-nowrap">{don.montant.toLocaleString("fr-FR")} FCFA</td>
-                            <td className="px-5 py-4 text-gray-600 text-sm">{don.cause}</td>
-                            <td className="px-5 py-4 text-gray-500 text-sm whitespace-nowrap">{don.mode}</td>
-                            <td className="px-5 py-4 text-gray-400 text-sm whitespace-nowrap">{don.date}</td>
+                            <td className="px-5 py-4 text-muted-foreground text-sm">{don.cause}</td>
+                            <td className="px-5 py-4 text-muted-foreground text-sm whitespace-nowrap">{don.mode}</td>
+                            <td className="px-5 py-4 text-muted-foreground text-sm whitespace-nowrap">{don.date}</td>
                             <td className="px-5 py-4">
-                              <span className={`text-xs px-2 py-1 rounded-full font-semibold whitespace-nowrap ${don.statut === "reçu" ? "bg-green-100 text-green-700" : don.statut === "en attente" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>
+                              <span className={`text-xs px-2 py-1 rounded-full font-semibold whitespace-nowrap glass-pill ${don.statut === "reçu" ? "bg-green-500/20 text-green-300 border-green-500/30" : don.statut.includes("attente") ? "bg-amber-500/20 text-amber-300 border-amber-500/30" : "bg-red-500/20 text-red-300 border-red-500/30"}`}>
                                 {don.statut}
                               </span>
                             </td>
@@ -575,7 +637,11 @@ const AdminDashboard = () => {
                                 >
                                   <Pencil size={15} />
                                 </button>
-                                <button onClick={() => { setDons(prev => prev.filter(d => d.id !== don.id)); showToast("Don supprimé"); }}
+                                <button onClick={async () => {
+                                    const success = await setDons(prev => prev.filter(d => d.id !== don.id));
+                                    if (success) showToast("Don supprimé");
+                                    else showToast("❌ Erreur de suppression");
+                                  }}
                                   className="p-2 rounded-lg btn-vibrant-red"
                                 >
                                   <Trash2 size={15} />
@@ -585,24 +651,30 @@ const AdminDashboard = () => {
                           </tr>
                         ))}
                         {dons.length === 0 && (
-                          <tr><td colSpan={7} className="px-5 py-16 text-center text-gray-400">Aucun don enregistré.</td></tr>
+                          <tr><td colSpan={7} className="px-5 py-16 text-center text-muted-foreground">Aucun don enregistré.</td></tr>
                         )}
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <AnimatePresence>
-                  {showDonForm && <Modal title="Enregistrer un don" onClose={() => setShowDonForm(false)}><AddDonForm causes={causes} onAdd={(d) => { setDons(prev => [d, ...prev]); setShowDonForm(false); showToast("Don enregistré !"); }} /></Modal>}
+                  {showDonForm && <Modal title="Enregistrer un don" onClose={() => setShowDonForm(false)}><AddDonForm causes={causes} onAdd={async (d) => {
+                        const success = await setDons(prev => [d, ...prev]);
+                        setShowDonForm(false);
+                        if (success) showToast("Don enregistré !");
+                        else showToast("❌ Erreur d'enregistrement");
+                      }} /></Modal>}
                   {editingItem?.type === 'don' && (
                     <Modal title="Modifier le don" onClose={() => setEditingItem(null)}>
-                      <AddDonForm 
+                      <AddDonForm
                         causes={causes}
                         initialData={editingItem.data}
-                        onAdd={(d) => { 
-                          setDons(prev => prev.map(old => old.id === d.id ? d : old));
-                          setEditingItem(null); 
-                          showToast("Don mis à jour !"); 
-                        }} 
+                        onAdd={async (d) => {
+                          const success = await setDons(prev => prev.map(old => old.id === d.id ? d : old));
+                          setEditingItem(null);
+                          if (success) showToast("Don mis à jour !");
+                          else showToast("❌ Erreur de sauvegarde");
+                        }}
                       />
                     </Modal>
                   )}
@@ -613,17 +685,17 @@ const AdminDashboard = () => {
             {/* ── MOT DE PASSE ── */}
             {activeTab === "mot-de-passe" && (
               <motion.div key="mdp" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="max-w-md">
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
+                <div className="glass-panel p-8">
                   <Shield className="text-primary mb-4" size={32} />
-                  <h2 className="font-heading font-bold text-gray-800 text-xl mb-2">Modifier le mot de passe</h2>
-                  <p className="text-gray-500 text-sm mb-6 leading-relaxed">
-                    Pour changer les identifiants de connexion, modifiez les constantes <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">ADMIN_USER</code> et <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">ADMIN_PASS</code> dans le fichier <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">src/pages/admin/AdminLogin.tsx</code>.
+                  <h2 className="font-heading font-bold text-foreground text-xl mb-2">Modifier le mot de passe</h2>
+                  <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+                    Pour changer les identifiants de connexion, modifiez les constantes <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">ADMIN_USER</code> et <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">ADMIN_PASS</code> dans le fichier <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">src/pages/admin/AdminLogin.tsx</code>.
                   </p>
-                  <div className="bg-gray-50 rounded-xl p-4 text-sm font-mono text-gray-700 space-y-1">
+                  <div className="glass-panel !rounded-xl p-4 text-sm font-mono text-foreground space-y-1">
                     <p><span className="text-blue-500">const</span> ADMIN_USER = <span className="text-green-600">"admin"</span>;</p>
                     <p><span className="text-blue-500">const</span> ADMIN_PASS = <span className="text-green-600">"espoir2026"</span>;</p>
                   </div>
-                  <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 text-amber-700 text-sm">
+                  <div className="mt-4 glass-panel !rounded-xl p-4 text-amber-400 dark:text-amber-300 text-sm border-amber-500/20">
                     ⚠️ N'oubliez pas de relancer le serveur après modification.
                   </div>
                 </div>
@@ -708,7 +780,7 @@ const AdminDashboard = () => {
       <AnimatePresence>
         {toast && (
           <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-white border border-gray-100 rounded-2xl px-5 py-4 shadow-2xl"
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-3 glass-panel px-5 py-4"
           >
             <CheckCircle size={18} className="text-green-500 flex-shrink-0" />
             <span className="text-gray-800 font-medium text-sm">{toast}</span>
